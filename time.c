@@ -2,33 +2,31 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "time.h"
+#include "ui.h"
+#include "game.h"
 
-void timeCounter(GameTime *gameTime) {
+void timeCounter(GameState *game) {
 
-    gameTime->seconds += 1;
+    game->time.minutes += 1;
 
-    if (gameTime->seconds >= 20) {
-        gameTime->minutes++;
-        gameTime->seconds = 0;
+    if (game->time.minutes >= 60) {
+        game->time.hours++;
+        game->time.minutes = 0;
         };
-    if (gameTime->minutes >= 60) {
-        gameTime->hours++;
-        gameTime->minutes = 0;
+    if (game->time.hours >= 12) {
+        game->time.days++;
+        game->time.hours = 0;
         };
-    if (gameTime->hours >= 24) {
-        gameTime->days++;
-        gameTime->hours = 0;
+    if (game->time.days >= 7) {
+        game->time.weeks++;
+        game->time.days = 0;
         };
-    if (gameTime->days >= 7) {
-        gameTime->weeks++;
-        gameTime->days = 0;
+    if (game->time.weeks >= 4) {
+        game->time.months++;
+        game->time.weeks = 0;
         };
-    if (gameTime->weeks >= 4) {
-        gameTime->months++;
-        gameTime->weeks = 0;
-        };
-    if (gameTime->months >= 12) {
-        gameTime->years++;
-        gameTime->months = 0;
+    if (game->time.months >= 12) {
+        game->time.years++;
+        game->time.months = 0;
         };
 }

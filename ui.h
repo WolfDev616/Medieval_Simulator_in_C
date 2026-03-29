@@ -1,2 +1,2 @@
 
-int timerHUD();
+void timerHUD(struct GameState *game);

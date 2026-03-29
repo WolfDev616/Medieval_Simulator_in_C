@@ -2,15 +2,41 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "time.h"
+#include "ui.h"
+#include "save.h"
+#include "game.h"
 
 int main() {
 
-    GameTime gameTime = {0};
+    GameState game = {0};
+
+    game.population = 100;
+    game.gold = 40;
+    game.food = 50;
+    game.farms = 0;
+    game.lastHour = 0;
+
+    loadGame(&game);
+
 
     while(1) {
-        timeCounter(&gameTime); // passa ponteiro para a função
-        timerHUD(&gameTime); // depois chama o HUD
-        sleep(1);
+        timeCounter(&game);
+        if (game.time.hours != game.lastHour) {
+        game.gold += game.population * (0.025);
+        game.population += 1;
+        game.food -= game.population * (0.01);
+        game.food += game.farms * (0.02);
+
+
+
+
+
+        game.lastHour = game.time.hours;
 }
+        timerHUD(&game);
+        saveGame(&game);
+        sleep(1);
+
+} system("pwd");
     return 0;
 };

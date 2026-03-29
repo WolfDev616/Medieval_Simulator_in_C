@@ -3,10 +3,12 @@
 #ifndef TIME_H
 #define TIME_H
 
-typedef struct {int years; int months; int weeks; int days; int hours; int minutes; int seconds;} GameTime;
+typedef struct GameTime {int years; int months; int weeks; int days; int hours; int minutes;} GameTime;
 
 
-void timeCounter(GameTime* gameTime);
+struct GameState;
+
+void timeCounter(struct GameState *game);
 
 
 #endif
