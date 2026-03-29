@@ -18,8 +18,10 @@ void loadGame(GameState *game) {
         *game = (GameState){0};
         game->gold = 40;
         game->population = 40;
+        game->food = 100;
+        game->farms = 0;
         game->lastDay = 0;
-        game->lastHour = 0;
+        game->lastMonth = 0;
         return;
     }
 
@@ -27,7 +29,10 @@ void loadGame(GameState *game) {
         *game = (GameState){0};
         game->gold = 40;
         game->population = 40;
+        game->food = 100;
+        game->farms = 0;
         game->lastDay = 0;
+        game->lastMonth = 0;
     }
 
     fclose(file);

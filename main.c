@@ -5,6 +5,8 @@
 #include "ui.h"
 #include "save.h"
 #include "game.h"
+#include "inputs.h"
+#include "economy.h"
 
 int main() {
 
@@ -12,31 +14,21 @@ int main() {
 
     game.population = 100;
     game.gold = 40;
-    game.food = 50;
+    game.food = 100;
     game.farms = 0;
-    game.lastHour = 0;
+    game.lastDay = 0;
 
     loadGame(&game);
 
 
     while(1) {
         timeCounter(&game);
-        if (game.time.hours != game.lastHour) {
-        game.gold += game.population * (0.025);
-        game.population += 1;
-        game.food -= game.population * (0.01);
-        game.food += game.farms * (0.02);
-
-
-
-
-
-        game.lastHour = game.time.hours;
-}
+        inputMap(&game);
         timerHUD(&game);
+        updateEconomy(&game);
         saveGame(&game);
         sleep(1);
 
-} system("pwd");
+}
     return 0;
 };

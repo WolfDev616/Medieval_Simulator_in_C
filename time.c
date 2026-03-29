@@ -7,13 +7,9 @@
 
 void timeCounter(GameState *game) {
 
-    game->time.minutes += 1;
+    game->time.hours += 1;
 
-    if (game->time.minutes >= 60) {
-        game->time.hours++;
-        game->time.minutes = 0;
-        };
-    if (game->time.hours >= 12) {
+    if (game->time.hours >= 24) {
         game->time.days++;
         game->time.hours = 0;
         };

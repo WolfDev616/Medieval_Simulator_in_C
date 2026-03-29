@@ -15,8 +15,8 @@ typedef struct GameState {
 
     // Control
 
-    int lastHour;
     int lastDay;
+    int lastMonth;
 
 
 } GameState;
