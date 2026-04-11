@@ -7,15 +7,11 @@
 
 void timeCounter(GameState *game) {
 
-    game->time.hours += 1;
+    game->time.days += 1;
 
-    if (game->time.hours >= 24) {
-        game->time.days++;
-        game->time.hours = 0;
-        };
-    if (game->time.days >= 7) {
+    if (game->time.days >= 8) {
         game->time.weeks++;
-        game->time.days = 0;
+        game->time.days = 1;
         };
     if (game->time.weeks >= 4) {
         game->time.months++;

@@ -28,5 +28,14 @@ void inputMap(GameState *game) {
                 printf("There is not enough gold!\n");
             }
         }
+
+        if (input == 'w') {
+            if (game->gold >= 5) {
+                game->wells += 1;
+                game->gold -= 5;
+            } else {
+                printf("There is not enough gold!\n");
+            }
+        }
     }
 }

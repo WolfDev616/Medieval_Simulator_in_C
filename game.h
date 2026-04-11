@@ -10,12 +10,15 @@ typedef struct GameState {
     int gold;
     int population;
     int food;
+    int water;
     int farms;
+    int wells;
 
 
     // Control
 
     int lastDay;
+    int lastWeek;
     int lastMonth;
 
 

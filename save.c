@@ -19,8 +19,11 @@ void loadGame(GameState *game) {
         game->gold = 40;
         game->population = 40;
         game->food = 100;
+        game->water = 80;
         game->farms = 0;
+        game->wells = 0;
         game->lastDay = 0;
+        game->lastWeek = 0;
         game->lastMonth = 0;
         return;
     }
@@ -30,8 +33,11 @@ void loadGame(GameState *game) {
         game->gold = 40;
         game->population = 40;
         game->food = 100;
+        game->water = 80;
         game->farms = 0;
+        game->wells = 0;
         game->lastDay = 0;
+        game->lastWeek = 0;
         game->lastMonth = 0;
     }
 

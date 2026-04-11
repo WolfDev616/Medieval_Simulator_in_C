@@ -25,6 +25,7 @@ int main() {
         timeCounter(&game);
         inputMap(&game);
         timerHUD(&game);
+        productionHUD(&game);
         updateEconomy(&game);
         saveGame(&game);
         sleep(1);
