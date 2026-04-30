@@ -9,11 +9,17 @@ typedef struct GameState {
 
     int gold;
     int population;
-    int food;
-    int water;
+    float food;
+    float water;
+    float wine;
+    float beer;
     int farms;
     int wells;
+    int wineries;
+    int breweries;
 
+    // Mechanics
+    int buildMode;
 
     // Control
 

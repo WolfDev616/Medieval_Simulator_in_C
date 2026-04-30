@@ -16,7 +16,14 @@ int main() {
     game.gold = 40;
     game.food = 100;
     game.farms = 0;
+    game.water = 50;
+    game.wells = 0;
+    game.wine = 0;
+    game.wineries = 0;
+    game.beer = 0;
+    game.breweries = 0;
     game.lastDay = 0;
+
 
     loadGame(&game);
 
@@ -28,8 +35,10 @@ int main() {
         productionHUD(&game);
         updateEconomy(&game);
         saveGame(&game);
-        sleep(1);
+        warningSystem(&game);
+        fflush(stdout);
+        usleep(1000000);
 
 }
     return 0;
-};
+}
