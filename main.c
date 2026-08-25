@@ -1,12 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include "raylib.h"
 #include "time.h"
 #include "ui.h"
 #include "save.h"
 #include "game.h"
 #include "inputs.h"
 #include "economy.h"
+
 
 int main() {
 
@@ -28,17 +30,25 @@ int main() {
     loadGame(&game);
 
 
-    while(1) {
-        timeCounter(&game);
-        inputMap(&game);
-        timerHUD(&game);
-        productionHUD(&game);
-        updateEconomy(&game);
-        saveGame(&game);
-        warningSystem(&game);
-        fflush(stdout);
-        usleep(1000000);
+InitWindow(1280, 720, "Medieval Simulator");
+SetTargetFPS(60);
 
+while (!WindowShouldClose()) {
+
+    timeCounter(&game);
+    inputMap(&game);
+    updateEconomy(&game);
+    warningSystem(&game);
+
+    BeginDrawing();
+    ClearBackground(RAYWHITE);
+
+    timerHUD(&game);
+    productionHUD(&game);
+
+    EndDrawing();
 }
+
+CloseWindow();
     return 0;
 }

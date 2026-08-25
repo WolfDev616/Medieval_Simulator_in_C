@@ -1,7 +1,8 @@
-#ifndef GAME_H
-#define GAME_H
-#include "time.h"
+#ifndef ECONOMY_H
+#define ECONOMY_H
 
-int updateEconomy(GameState *game);
+#include "game.h"
+
+void updateEconomy(GameState *game);
 
 #endif

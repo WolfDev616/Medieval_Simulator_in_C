@@ -4,6 +4,7 @@
 
 typedef struct GameState {
     GameTime time;
+	float timeAccumulator;
 
     // Resources
 

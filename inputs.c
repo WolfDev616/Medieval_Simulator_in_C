@@ -19,6 +19,7 @@ void inputMap(GameState *game) {
 
     if (result > 0) {
         char input = getchar();
+        while (getchar() != '\n');
 
         if (game->buildMode == 0) {
 
@@ -37,7 +38,7 @@ void inputMap(GameState *game) {
                 }
             }
 
-            if (input == 'w') {
+            else if (input == 'w') {
                 if (game->gold >= 5) {
                     game->wells += 1;
                     game->gold -= 5;
@@ -46,25 +47,25 @@ void inputMap(GameState *game) {
                 }
             }
 
-            if (input == 'v') {
+            else if (input == 'v') {
                 if (game->gold >= 10) {
                     game->wineries += 1;
-                    game->gold -= 5;
+                    game->gold -= 10;
                 } else {
                     printf("There is not enough gold!\n");
                 }
             }
 
-            if (input == 'b') {
+            else if (input == 'b') {
                 if (game->gold >= 10) {
                     game->breweries += 1;
-                    game->gold -= 5;
+                    game->gold -= 10;
                 } else {
                     printf("There is not enough gold!\n");
                 }
 
-            game->buildMode = 0;
             }
+            game->buildMode = 0;
         }
         }
     }

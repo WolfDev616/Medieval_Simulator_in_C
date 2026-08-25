@@ -22,6 +22,10 @@ void loadGame(GameState *game) {
         game->water = 40;
         game->farms = 0;
         game->wells = 0;
+        game->wine = 0;
+        game->wineries = 0;
+        game->beer = 0;
+        game->breweries = 0;
         game->lastDay = 0;
         game->lastWeek = 0;
         game->lastMonth = 0;
@@ -35,6 +39,10 @@ void loadGame(GameState *game) {
         game->food = 100;
         game->water = 80;
         game->farms = 0;
+        game->wine = 0;
+        game->wineries = 0;
+        game->beer = 0;
+        game->breweries = 0;
         game->wells = 0;
         game->lastDay = 0;
         game->lastWeek = 0;
