@@ -6,8 +6,22 @@
 #include "ui.h"
 #include "game.h"
 
-void timerHUD(GameState *game) {
+Font medievalFont;
 
+void DrawMedievalText(const char *text, int x, int y, float size, Color color)
+{
+    DrawTextEx(
+        medievalFont,
+        text,
+        (Vector2){x, y},
+        size,
+        1,
+        color
+    );
+}
+
+void timerHUD(GameState *game)
+{
     char timeText[100];
 
     sprintf(
@@ -19,75 +33,149 @@ void timerHUD(GameState *game) {
         game->time.days
     );
 
-    DrawText(timeText, 30, 30, 24, BLACK);
+    DrawMedievalText(
+        timeText,
+        30,
+        30,
+        30,
+        BLACK
+    );
 }
 
-void productionHUD(GameState *game) {
+void productionHUD(GameState *game)
+{
+    DrawMedievalText(
+        TextFormat("Population: %d", game->population),
+        30,
+        100,
+        30,
+        BLACK
+    );
 
-    DrawText(TextFormat("Population: %d", game->population),
-             30, 100, 24, BLACK);
+    DrawMedievalText(
+        TextFormat("Gold: %d", game->gold),
+        30,
+        130,
+        30,
+        BLACK
+    );
 
-    DrawText(TextFormat("Gold: %d", game->gold),
-             30, 130, 24, BLACK);
+    DrawMedievalText(
+        TextFormat("Food: %.2f", game->food),
+        30,
+        180,
+        30,
+        BLACK
+    );
 
-    DrawText(TextFormat("Food: %.2f", game->food),
-             30, 180, 24, BLACK);
+    DrawMedievalText(
+        TextFormat("Farms: %d", game->farms),
+        30,
+        210,
+        30,
+        BLACK
+    );
 
-    DrawText(TextFormat("Farms: %d", game->farms),
-             30, 210, 24, BLACK);
+    DrawMedievalText(
+        TextFormat("Water: %.2f", game->water),
+        30,
+        260,
+        30,
+        BLACK
+    );
 
-    DrawText(TextFormat("Water: %.2f", game->water),
-             30, 260, 24, BLACK);
-
-    DrawText(TextFormat("Wells: %d", game->wells),
-             30, 290, 24, BLACK);
+    DrawMedievalText(
+        TextFormat("Wells: %d", game->wells),
+        30,
+        290,
+        30,
+        BLACK
+    );
 
     if (game->wineries > 0) {
 
-        DrawText(TextFormat("Wine: %.2f barrels", game->wine),
-                 30, 340, 24, BLACK);
+        DrawMedievalText(
+            TextFormat("Wine: %.2f barrels", game->wine),
+            30,
+            340,
+            30,
+            BLACK
+        );
 
-        DrawText(TextFormat("Wineries: %d", game->wineries),
-                 30, 370, 24, BLACK);
+        DrawMedievalText(
+            TextFormat("Wineries: %d", game->wineries),
+            30,
+            370,
+            30,
+            BLACK
+        );
     }
 
     if (game->breweries > 0) {
 
-        DrawText(TextFormat("Beer: %.2f", game->beer),
-                 30, 420, 24, BLACK);
+        DrawMedievalText(
+            TextFormat("Beer: %.2f", game->beer),
+            30,
+            420,
+            30,
+            BLACK
+        );
 
-        DrawText(TextFormat("Breweries: %d", game->breweries),
-                 30, 450, 24, BLACK);
+        DrawMedievalText(
+            TextFormat("Breweries: %d", game->breweries),
+            30,
+            450,
+            30,
+            BLACK
+        );
     }
 }
 
-void warningHUD(GameState *game) {
-
+void warningHUD(GameState *game)
+{
     if (game->water == 0) {
+
         const char *warning = "Out of water!";
-        DrawText(
+
+        float textWidth = MeasureTextEx(
+            medievalFont,
             warning,
-            1280 - MeasureText(warning, 24) - 30,
+            30,
+            1
+        ).x;
+
+        DrawMedievalText(
+            warning,
+            1280 - textWidth - 30,
             660,
-            24,
+            30,
             RED
         );
     }
 
     if (game->food == 0) {
+
         const char *warning = "Out of food!";
-        DrawText(
+
+        float textWidth = MeasureTextEx(
+            medievalFont,
             warning,
-            1280 - MeasureText(warning, 24) - 30,
+            30,
+            1
+        ).x;
+
+        DrawMedievalText(
+            warning,
+            1280 - textWidth - 30,
             690,
-            24,
+            30,
             RED
         );
     }
 }
 
-void warningSystem(GameState *game) {
-
+void warningSystem(GameState *game)
+{
     // WATER
     if (game->water < 0) {
         game->water = 0;

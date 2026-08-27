@@ -31,6 +31,7 @@ int main() {
 
 
 InitWindow(1280, 720, "Medieval Simulator");
+medievalFont = LoadFont("fonts/MedievalSharp-Regular.ttf");
 SetTargetFPS(60);
 
 while (!WindowShouldClose()) {
