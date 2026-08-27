@@ -8,6 +8,7 @@ extern Font medievalFont;
 
 void timerHUD(GameState *game);
 void productionHUD(GameState *game);
+void buildingButtons(void);
 void warningHUD(GameState *game);
 void warningSystem(GameState *game);
 

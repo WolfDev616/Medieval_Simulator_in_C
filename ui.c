@@ -5,6 +5,7 @@
 #include "time.h"
 #include "ui.h"
 #include "game.h"
+#include "buttons.h"
 
 Font medievalFont;
 
@@ -53,7 +54,7 @@ void productionHUD(GameState *game)
     );
 
     DrawMedievalText(
-        TextFormat("Gold: %d", game->gold),
+        TextFormat("Gold: %d pieces", game->gold),
         30,
         130,
         30,
@@ -61,7 +62,7 @@ void productionHUD(GameState *game)
     );
 
     DrawMedievalText(
-        TextFormat("Food: %.2f", game->food),
+        TextFormat("Food: %.2f sacks", game->food),
         30,
         180,
         30,
@@ -77,7 +78,7 @@ void productionHUD(GameState *game)
     );
 
     DrawMedievalText(
-        TextFormat("Water: %.2f", game->water),
+        TextFormat("Water: %.2f litres", game->water),
         30,
         260,
         30,
@@ -129,6 +130,117 @@ void productionHUD(GameState *game)
             BLACK
         );
     }
+}
+
+void buildingButtons(void) {
+
+    Vector2 mouse = GetMousePosition();
+
+    Color farmColor = LIGHTGRAY;
+    Color wellColor = LIGHTGRAY;
+    Color wineryColor = LIGHTGRAY;
+    Color breweryColor = LIGHTGRAY;
+
+
+    // Hover / click
+
+    if (CheckCollisionPointRec(mouse, FARM_BUTTON)) {
+        farmColor = IsMouseButtonDown(MOUSE_BUTTON_LEFT)
+                    ? DARKGRAY
+                    : GRAY;
+    }
+
+    if (CheckCollisionPointRec(mouse, WELL_BUTTON)) {
+        wellColor = IsMouseButtonDown(MOUSE_BUTTON_LEFT)
+                    ? DARKGRAY
+                    : GRAY;
+    }
+
+    if (CheckCollisionPointRec(mouse, WINERY_BUTTON)) {
+        wineryColor = IsMouseButtonDown(MOUSE_BUTTON_LEFT)
+                      ? DARKGRAY
+                      : GRAY;
+    }
+
+    if (CheckCollisionPointRec(mouse, BREWERY_BUTTON)) {
+        breweryColor = IsMouseButtonDown(MOUSE_BUTTON_LEFT)
+                       ? DARKGRAY
+                       : GRAY;
+    }
+
+
+    // Buttons
+
+    DrawRectangleRec(FARM_BUTTON, farmColor);
+    DrawTextEx(
+        medievalFont,
+        "Farm",
+        (Vector2){80, 558},
+        24,
+        1,
+        BLACK
+    );
+    DrawText(
+        "5 gold",
+        85,
+        585,
+        16,
+        BLACK
+    );
+
+
+    DrawRectangleRec(WELL_BUTTON, wellColor);
+    DrawTextEx(
+        medievalFont,
+        "Well",
+        (Vector2){290, 558},
+        24,
+        1,
+        BLACK
+    );
+    DrawText(
+        "5 gold",
+        285,
+        585,
+        16,
+        BLACK
+    );
+
+
+    DrawRectangleRec(WINERY_BUTTON, wineryColor);
+    DrawTextEx(
+        medievalFont,
+        "Winery",
+        (Vector2){490, 558},
+        24,
+        1,
+        BLACK
+    );
+    DrawText(
+        "10 gold",
+        485,
+        585,
+        16,
+        BLACK
+    );
+
+
+    DrawRectangleRec(BREWERY_BUTTON, breweryColor);
+    DrawTextEx(
+        medievalFont,
+        "Brewery",
+        (Vector2){680, 558},
+        24,
+        1,
+        BLACK
+    );
+    DrawText(
+        "10 gold",
+        675,
+        585,
+        16,
+        BLACK
+    );
 }
 
 void warningHUD(GameState *game)

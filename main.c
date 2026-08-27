@@ -15,7 +15,7 @@ int main() {
     GameState game = {0};
 
     game.population = 100;
-    game.gold = 40;
+    game.gold = 100;
     game.food = 100;
     game.farms = 0;
     game.water = 50;
@@ -46,10 +46,12 @@ while (!WindowShouldClose()) {
 
     timerHUD(&game);
     productionHUD(&game);
+	buildingButtons();
+    warningHUD(&game);
 
     EndDrawing();
 }
-
+UnloadFont(medievalFont);
 CloseWindow();
     return 0;
 }

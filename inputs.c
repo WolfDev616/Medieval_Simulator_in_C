@@ -1,71 +1,44 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/select.h>
+#include "raylib.h"
 #include "game.h"
 #include "inputs.h"
+#include "buttons.h"
 
 void inputMap(GameState *game) {
 
-    fd_set set;
-    struct timeval timeout;
+    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
 
-    FD_ZERO(&set);
-    FD_SET(STDIN_FILENO, &set);
+        Vector2 mouse = GetMousePosition();
 
-    timeout.tv_sec = 0;
-    timeout.tv_usec = 0;
+        if (CheckCollisionPointRec(mouse, FARM_BUTTON)) {
 
-    int result = select(STDIN_FILENO + 1, &set, NULL, NULL, &timeout);
-
-    if (result > 0) {
-        char input = getchar();
-        while (getchar() != '\n');
-
-        if (game->buildMode == 0) {
-
-            if (input == 'b') {
-                game->buildMode = 1;
+            if (game->gold >= 5) {
+                game->farms += 1;
+                game->gold -= 5;
             }
-
-        } else {
-
-            if (input == 'f') {
-                if (game->gold >= 5) {
-                    game->farms += 1;
-                    game->gold -= 5;
-                } else {
-                    printf("There is not enough gold!\n");
-                }
-            }
-
-            else if (input == 'w') {
-                if (game->gold >= 5) {
-                    game->wells += 1;
-                    game->gold -= 5;
-                } else {
-                    printf("There is not enough gold!\n");
-                }
-            }
-
-            else if (input == 'v') {
-                if (game->gold >= 10) {
-                    game->wineries += 1;
-                    game->gold -= 10;
-                } else {
-                    printf("There is not enough gold!\n");
-                }
-            }
-
-            else if (input == 'b') {
-                if (game->gold >= 10) {
-                    game->breweries += 1;
-                    game->gold -= 10;
-                } else {
-                    printf("There is not enough gold!\n");
-                }
-
-            }
-            game->buildMode = 0;
         }
+
+        else if (CheckCollisionPointRec(mouse, WELL_BUTTON)) {
+
+            if (game->gold >= 5) {
+                game->wells += 1;
+                game->gold -= 5;
+            }
+        }
+
+        else if (CheckCollisionPointRec(mouse, WINERY_BUTTON)) {
+
+            if (game->gold >= 10) {
+                game->wineries += 1;
+                game->gold -= 10;
+            }
+        }
+
+        else if (CheckCollisionPointRec(mouse, BREWERY_BUTTON)) {
+
+            if (game->gold >= 10) {
+                game->breweries += 1;
+                game->gold -= 10;
+            }
         }
     }
+}
