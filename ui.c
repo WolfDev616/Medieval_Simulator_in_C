@@ -43,8 +43,7 @@ void timerHUD(GameState *game)
     );
 }
 
-void productionHUD(GameState *game)
-{
+void productionHUD(GameState *game) {
     DrawMedievalText(
         TextFormat("Population: %d", game->population),
         30,
@@ -115,7 +114,7 @@ void productionHUD(GameState *game)
     if (game->breweries > 0) {
 
         DrawMedievalText(
-            TextFormat("Beer: %.2f", game->beer),
+            TextFormat("Beer: %.2f barrels", game->beer),
             30,
             420,
             30,
@@ -296,5 +295,14 @@ void warningSystem(GameState *game)
     // FOOD
     if (game->food < 0) {
         game->food = 0;
+    }
+    // WINE
+    if (game->wine < 0) {
+        game->wine = 0;
+    }
+
+    // BEER
+    if (game->beer < 0) {
+        game->beer = 0;
     }
 }

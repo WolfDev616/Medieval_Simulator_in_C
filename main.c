@@ -14,20 +14,14 @@ int main() {
 
     GameState game = {0};
 
-    game.population = 100;
-    game.gold = 100;
-    game.food = 100;
-    game.farms = 0;
-    game.water = 50;
-    game.wells = 0;
-    game.wine = 0;
-    game.wineries = 0;
-    game.beer = 0;
-    game.breweries = 0;
-    game.lastDay = 0;
-
-
     loadGame(&game);
+    printf(
+    "DEBUG: Gold=%d Population=%d Food=%.2f Water=%.2f\n",
+    game.gold,
+    game.population,
+    game.food,
+    game.water
+);
 
 
 InitWindow(1280, 720, "Medieval Simulator");
@@ -52,6 +46,7 @@ while (!WindowShouldClose()) {
     EndDrawing();
 }
 UnloadFont(medievalFont);
+saveGame(&game);
 CloseWindow();
     return 0;
 }

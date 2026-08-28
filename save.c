@@ -16,34 +16,42 @@ void loadGame(GameState *game) {
 
     if (file == NULL) {
         *game = (GameState){0};
-        game->gold = 40;
-        game->population = 40;
+
+        game->gold = 100;
+        game->population = 100;
         game->food = 100;
-        game->water = 40;
+        game->water = 50;
+
         game->farms = 0;
         game->wells = 0;
         game->wine = 0;
         game->wineries = 0;
         game->beer = 0;
         game->breweries = 0;
+
         game->lastDay = 0;
         game->lastWeek = 0;
         game->lastMonth = 0;
+
         return;
+
     }
 
     if (fread(game, sizeof(GameState), 1, file) != 1) {
         *game = (GameState){0};
-        game->gold = 40;
-        game->population = 40;
+
+        game->gold = 100;
+        game->population = 100;
         game->food = 100;
-        game->water = 80;
+        game->water = 50;
+
         game->farms = 0;
+        game->wells = 0;
         game->wine = 0;
         game->wineries = 0;
         game->beer = 0;
         game->breweries = 0;
-        game->wells = 0;
+
         game->lastDay = 0;
         game->lastWeek = 0;
         game->lastMonth = 0;

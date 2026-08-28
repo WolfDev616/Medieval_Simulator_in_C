@@ -118,7 +118,7 @@ void updateEconomy(GameState *game) {
         if (game->breweries > 0) {
 
             for (int i = 1; i <= game->breweries; i++) {
-                game->water -= 18;
+                game->water -= 10;
             }
         }
 
@@ -128,7 +128,7 @@ void updateEconomy(GameState *game) {
         if (game->wineries > 0) {
 
             for (int i = 1; i <= game->wineries; i++) {
-                game->water -= 18;
+                game->water -= 10;
             }
         }
 

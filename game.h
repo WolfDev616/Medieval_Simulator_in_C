@@ -6,6 +6,9 @@ typedef struct GameState {
     GameTime time;
 	float timeAccumulator;
 
+    char warningMessage[100];
+    float warningTimer;
+
     // Resources
 
     int gold;
@@ -18,9 +21,6 @@ typedef struct GameState {
     int wells;
     int wineries;
     int breweries;
-
-    // Mechanics
-    int buildMode;
 
     // Control
 

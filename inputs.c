@@ -2,18 +2,30 @@
 #include "game.h"
 #include "inputs.h"
 #include "buttons.h"
+#include <stdio.h>
 
 void inputMap(GameState *game) {
 
     if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
 
         Vector2 mouse = GetMousePosition();
+    
 
         if (CheckCollisionPointRec(mouse, FARM_BUTTON)) {
 
             if (game->gold >= 5) {
                 game->farms += 1;
                 game->gold -= 5;
+                
+            }
+            else {
+                snprintf(
+                    game->warningMessage,
+                    sizeof(game->warningMessage),
+                    "There is not enough gold!"
+                );
+
+                game->warningTimer = 3.0f;
             }
         }
 
@@ -23,6 +35,15 @@ void inputMap(GameState *game) {
                 game->wells += 1;
                 game->gold -= 5;
             }
+            else {
+                snprintf(
+                    game->warningMessage,
+                    sizeof(game->warningMessage),
+                    "There is not enough gold!"
+                );
+
+                game->warningTimer = 3.0f;
+            }
         }
 
         else if (CheckCollisionPointRec(mouse, WINERY_BUTTON)) {
@@ -31,6 +52,15 @@ void inputMap(GameState *game) {
                 game->wineries += 1;
                 game->gold -= 10;
             }
+            else {
+                snprintf(
+                    game->warningMessage,
+                    sizeof(game->warningMessage),
+                    "There is not enough gold!"
+                );
+
+                game->warningTimer = 3.0f;
+            }
         }
 
         else if (CheckCollisionPointRec(mouse, BREWERY_BUTTON)) {
@@ -38,6 +68,15 @@ void inputMap(GameState *game) {
             if (game->gold >= 10) {
                 game->breweries += 1;
                 game->gold -= 10;
+            }
+            else {
+                snprintf(
+                    game->warningMessage,
+                    sizeof(game->warningMessage),
+                    "There is not enough gold!"
+                );
+
+                game->warningTimer = 3.0f;
             }
         }
     }
