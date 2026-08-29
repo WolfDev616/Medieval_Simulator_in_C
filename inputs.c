@@ -16,6 +16,8 @@ void inputMap(GameState *game) {
             if (game->gold >= 5) {
                 game->Farm.amount += 1;
                 game->gold -= 5;
+                game->workers += 1;
+                game->Farm.workers += 1;
                 
             }
             else {
@@ -34,6 +36,8 @@ void inputMap(GameState *game) {
             if (game->gold >= 5) {
                 game->Well.amount += 1;
                 game->gold -= 5;
+                game->workers += 1;
+                game->Well.workers += 1;
             }
             else {
                 snprintf(
@@ -51,6 +55,8 @@ void inputMap(GameState *game) {
             if (game->gold >= 10) {
                 game->Winery.amount += 1;
                 game->gold -= 10;
+                game->workers += 1;
+                game->Winery.workers += 1;
             }
             else {
                 snprintf(
@@ -68,6 +74,8 @@ void inputMap(GameState *game) {
             if (game->gold >= 10) {
                 game->Brewery.amount += 1;
                 game->gold -= 10;
+                game->workers += 1;
+                game->Brewery.workers += 1;
             }
             else {
                 snprintf(

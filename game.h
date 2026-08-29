@@ -39,5 +39,7 @@ typedef struct GameState {
 
 } GameState;
 
+void updateIdlePopulation(GameState *game);
+
 
 #endif

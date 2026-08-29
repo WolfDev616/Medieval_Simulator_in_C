@@ -33,6 +33,7 @@ int main() {
         timeCounter(&game);
         inputMap(&game);
         updateEconomy(&game);
+        updateIdlePopulation(&game);
         warningSystem(&game);
 
         BeginDrawing();

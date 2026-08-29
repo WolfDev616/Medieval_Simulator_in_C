@@ -61,8 +61,15 @@ void productionHUD(GameState *game)
     );
 
     DrawMedievalText(
-        TextFormat("Workers: %d", game->workers),
+        TextFormat("Idle Population: %d", game->idlePopulation),
         280,
+        100,
+        30,
+        BLACK
+    );
+    DrawMedievalText(
+        TextFormat("Workers: %d", game->workers),
+        280+280,
         100,
         30,
         BLACK
