@@ -6,6 +6,7 @@
 #include "ui.h"
 #include "save.h"
 #include "game.h"
+#include "raylib.h"
 
 
 void updateEconomy(GameState *game) {
@@ -24,7 +25,7 @@ void updateEconomy(GameState *game) {
         }
 
         if (game->wine > 0) {
-            game->wine -= game->population * 0.02;
+            game->wine -= game->population * 0.01;
         }
 
         if (game->beer > 0) {
@@ -34,9 +35,9 @@ void updateEconomy(GameState *game) {
 
         // FARM WATER CONSUMPTION
 
-        if (game->farms > 0) {
+        if (game->Farm.amount > 0) {
 
-            for (int i = 1; i <= game->farms; i++) {
+            for (int i = 1; i <= game->Farm.amount; i++) {
                 game->water -= 1;
             }
         }
@@ -44,10 +45,10 @@ void updateEconomy(GameState *game) {
 
         // WELL WATER PRODUCTION
 
-        if (game->wells > 0) {
+        if (game->Well.amount > 0) {
 
-            for (int j = 1; j <= game->wells; j++) {
-                game->water += 1;
+            for (int j = 1; j <= game->Well.amount; j++) {
+                game->water += 3;
             }
         }
 
@@ -65,14 +66,14 @@ void updateEconomy(GameState *game) {
         // WEEKLY PRODUCTION
 
         game->gold += game->population * 0.025;
-        game->food += game->farms * 0.02;
+        game->food += game->Farm.amount * 0.02;
 
 
         // BREWERY PRODUCTION
 
-        if (game->breweries > 0) {
+        if (game->Brewery.amount > 0) {
 
-            for (int i = 1; i <= game->breweries; i++) {
+            for (int i = 1; i <= game->Brewery.amount; i++) {
                 game->beer += 8;
             }
         }
@@ -95,9 +96,9 @@ void updateEconomy(GameState *game) {
 
         // FARM PRODUCTION
 
-        if (game->farms > 0) {
+        if (game->Farm.amount > 0) {
 
-            for (int i = 1; i <= game->farms; i++) {
+            for (int i = 1; i <= game->Farm.amount; i++) {
                 game->food += 10;
             }
         }
@@ -105,19 +106,19 @@ void updateEconomy(GameState *game) {
 
         // WINERY PRODUCTION
 
-        if (game->wineries > 0) {
+        if (game->Winery.amount > 0) {
 
-            for (int i = 1; i <= game->wineries; i++) {
-                game->wine += 8;
+            for (int i = 1; i <= game->Winery.amount; i++) {
+                game->wine += 15;
             }
         }
 
 
         // BREWERY WATER CONSUMPTION
 
-        if (game->breweries > 0) {
+        if (game->Brewery.amount > 0) {
 
-            for (int i = 1; i <= game->breweries; i++) {
+            for (int i = 1; i <= game->Brewery.amount; i++) {
                 game->water -= 10;
             }
         }
@@ -125,10 +126,10 @@ void updateEconomy(GameState *game) {
 
         // WINERY WATER CONSUMPTION
 
-        if (game->wineries > 0) {
+        if (game->Winery.amount > 0) {
 
-            for (int i = 1; i <= game->wineries; i++) {
-                game->water -= 10;
+            for (int i = 1; i <= game->Winery.amount; i++) {
+                game->water -= 15;
             }
         }
 

@@ -2,6 +2,11 @@
 #define GAME_H
 #include "time.h"
 
+typedef struct {
+    int amount;
+    int workers;
+} Workplace;        
+
 typedef struct GameState {
     GameTime time;
 	float timeAccumulator;
@@ -13,15 +18,18 @@ typedef struct GameState {
 
     int gold;
     int population;
+    int workers;
+    int idlePopulation;
     float food;
     float water;
     float wine;
     float beer;
-    int farms;
-    int wells;
-    int wineries;
-    int breweries;
+    Workplace Farm;
+    Workplace Well;
+    Workplace Winery;
+    Workplace Brewery;
 
+    
     // Control
 
     int lastDay;

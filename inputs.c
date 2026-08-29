@@ -14,7 +14,7 @@ void inputMap(GameState *game) {
         if (CheckCollisionPointRec(mouse, FARM_BUTTON)) {
 
             if (game->gold >= 5) {
-                game->farms += 1;
+                game->Farm.amount += 1;
                 game->gold -= 5;
                 
             }
@@ -32,7 +32,7 @@ void inputMap(GameState *game) {
         else if (CheckCollisionPointRec(mouse, WELL_BUTTON)) {
 
             if (game->gold >= 5) {
-                game->wells += 1;
+                game->Well.amount += 1;
                 game->gold -= 5;
             }
             else {
@@ -49,7 +49,7 @@ void inputMap(GameState *game) {
         else if (CheckCollisionPointRec(mouse, WINERY_BUTTON)) {
 
             if (game->gold >= 10) {
-                game->wineries += 1;
+                game->Winery.amount += 1;
                 game->gold -= 10;
             }
             else {
@@ -66,7 +66,7 @@ void inputMap(GameState *game) {
         else if (CheckCollisionPointRec(mouse, BREWERY_BUTTON)) {
 
             if (game->gold >= 10) {
-                game->breweries += 1;
+                game->Brewery.amount += 1;
                 game->gold -= 10;
             }
             else {

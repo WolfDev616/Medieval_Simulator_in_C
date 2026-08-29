@@ -12,41 +12,43 @@
 
 int main() {
 
-    GameState game = {0};
+        GameState game = {0};
 
-    loadGame(&game);
-    printf(
-    "DEBUG: Gold=%d Population=%d Food=%.2f Water=%.2f\n",
-    game.gold,
-    game.population,
-    game.food,
-    game.water
-);
+        loadGame(&game);
 
 
-InitWindow(1280, 720, "Medieval Simulator");
-medievalFont = LoadFont("fonts/MedievalSharp-Regular.ttf");
-SetTargetFPS(60);
+    InitWindow(1280, 720, "Medieval Simulator");
+    InitAudioDevice();              // Initialize audio device
 
-while (!WindowShouldClose()) {
+    Music music = LoadMusicStream("/home/andreas/Programação/C Projects/Medieval_Simulator/sounds/MidnightWalk.mp3");
+    PlayMusicStream(music);
 
-    timeCounter(&game);
-    inputMap(&game);
-    updateEconomy(&game);
-    warningSystem(&game);
+    medievalFont = LoadFont("fonts/MedievalSharp-Regular.ttf");
+    SetTargetFPS(60);
 
-    BeginDrawing();
-    ClearBackground(RAYWHITE);
+    while (!WindowShouldClose()) {
 
-    timerHUD(&game);
-    productionHUD(&game);
-	buildingButtons();
-    warningHUD(&game);
+        UpdateMusicStream(music);
 
-    EndDrawing();
-}
+        timeCounter(&game);
+        inputMap(&game);
+        updateEconomy(&game);
+        warningSystem(&game);
+
+        BeginDrawing();
+        ClearBackground(RAYWHITE);
+
+        timerHUD(&game);
+        productionHUD(&game);
+        buildingButtons();
+        warningHUD(&game);
+
+        EndDrawing();
+    }
 UnloadFont(medievalFont);
 saveGame(&game);
+UnloadMusicStream(music);   // Unload music stream buffers from RAM
+CloseAudioDevice(); 
 CloseWindow();
     return 0;
 }

@@ -1,6 +1,6 @@
 CC = gcc
 
-CFLAGS = -Wall -Wextra -I/usr/local/include
+CFLAGS = -Wall -Wextra -I/usr/local/include -MMD -MP
 
 LIBS = -L/usr/local/lib -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
 
@@ -8,6 +8,8 @@ TARGET = medieval_test
 
 SOURCES = $(wildcard *.c)
 OBJECTS = $(SOURCES:.c=.o)
+DEPENDS = $(OBJECTS:.o=.d)
+-include $(DEPENDS)
 
 all: $(TARGET)
 
@@ -21,4 +23,4 @@ run: $(TARGET)
 	./$(TARGET)
 
 clean:
-	rm -f $(OBJECTS) $(TARGET)
+	rm -f $(OBJECTS) $(DEPENDS) $(TARGET) save.dat
