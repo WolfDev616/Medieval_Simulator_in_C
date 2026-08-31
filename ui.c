@@ -11,13 +11,12 @@
 
 Font medievalFont;
 
-
 void DrawMedievalText(const char *text, int x, int y, float size, Color color)
 {
     DrawTextEx(
         medievalFont,
         text,
-        (Vector2){x, y},
+        (Vector2){(float)x, (float)y},
         size,
         1,
         color
@@ -47,285 +46,277 @@ void timerHUD(GameState *game)
     );
 }
 
+void DrawProductionCell(
+    int column,
+    int row,
+    float cellWidth,
+    float cellHeight,
+    float margin,
+    float top,
+    const char *name,
+    int amount,
+    int workers
+    )
+    {
+    float x = margin + (column * cellWidth);
+    float y = top + (row * cellHeight);
+
+
+    // Cell border
+    DrawRectangleLines(
+        (int)x,
+        (int)y,
+        (int)cellWidth,
+        (int)cellHeight,
+        BLACK
+    );
+
+    // Production name
+    float nameWidth = MeasureTextEx(
+        medievalFont,
+        name,
+        26,
+        1
+    ).x;
+
+    DrawMedievalText(
+        name,
+        x + (cellWidth - nameWidth) / 2,
+        y + 15,
+        26,
+        BLACK
+    );
+
+    // Number of establishments
+    DrawMedievalText(
+        TextFormat("Buildings: %d", amount),
+        x + 20,
+        y + cellHeight * 0.50f,
+        20,
+        BLACK
+    );
+
+    // Number of workers
+    DrawMedievalText(
+        TextFormat("Workers: %d", workers),
+        x + 20,
+        y + cellHeight * 0.70f,
+        20,
+        BLACK
+    );
+
+}
+
 
 void productionHUD(GameState *game)
 {
-    // Population / Workers
+    int screenWidth = GetScreenWidth();
+    int screenHeight = GetScreenHeight();
 
-    DrawMedievalText(
-        TextFormat("Population: %d", game->population),
-        30,
-        100,
-        30,
-        BLACK
+    // Grid dimensions
+    int columns = 4;
+    int rows = 4;
+
+    float margin = 30;
+    float top = 100;
+    float bottom = 120;
+
+    float gridWidth = screenWidth - (margin * 2);
+    float gridHeight = screenHeight - top - bottom;
+
+    float cellWidth = gridWidth / columns;
+    float cellHeight = gridHeight / rows;
+
+    // Row 1
+    DrawProductionCell(
+        0, 0,
+        cellWidth, cellHeight,
+        margin, top,
+        "Farm",
+        game->Farm.amount,
+        game->Farm.workers
     );
 
-    DrawMedievalText(
-        TextFormat("Idle Population: %d", game->idlePopulation),
-        280,
-        100,
-        30,
-        BLACK
-    );
-    DrawMedievalText(
-        TextFormat("Workers: %d", game->workers),
-        280+280,
-        100,
-        30,
-        BLACK
+    DrawProductionCell(
+        1, 0,
+        cellWidth, cellHeight,
+        margin, top,
+        "Well",
+        game->Well.amount,
+        game->Well.workers
     );
 
-
-    // Gold
-
-    DrawMedievalText(
-        TextFormat("Gold: %d pieces", game->gold),
-        30,
-        140,
-        30,
-        BLACK
+    DrawProductionCell(
+        2, 0,
+        cellWidth, cellHeight,
+        margin, top,
+        "Mill",
+        game->Mill.amount,
+        game->Mill.workers
     );
 
-
-    // Food / Farms
-
-    DrawMedievalText(
-        TextFormat("Food: %.2f sacks", game->food),
-        30,
-        190,
-        30,
-        BLACK
+    DrawProductionCell(
+        3, 0,
+        cellWidth, cellHeight,
+        margin, top,
+        "Bakery",
+        game->Bakery.amount,
+        game->Bakery.workers
     );
 
-    DrawMedievalText(
-        TextFormat("Farms: %d", game->Farm.amount),
-        30,
-        220,
-        30,
-        BLACK
+    // Row 2
+    DrawProductionCell(
+        0, 1,
+        cellWidth, cellHeight,
+        margin, top,
+        "Winery",
+        game->Winery.amount,
+        game->Winery.workers
     );
 
-    DrawMedievalText(
-        TextFormat("Farm workers: %d", game->Farm.workers),
-        30,
-        250,
-        24,
-        BLACK
+    DrawProductionCell(
+        1, 1,
+        cellWidth, cellHeight,
+        margin, top,
+        "Brewery",
+        game->Brewery.amount,
+        game->Brewery.workers
     );
 
+// Empty cells reserved for future productions
 
-    // Water / Wells
-
-    DrawMedievalText(
-        TextFormat("Water: %.2f litres", game->water),
-        30,
-        290,
-        30,
-        BLACK
-    );
-
-    DrawMedievalText(
-        TextFormat("Wells: %d", game->Well.amount),
-        30,
-        320,
-        30,
-        BLACK
-    );
-
-    DrawMedievalText(
-        TextFormat("Well workers: %d", game->Well.workers),
-        30,
-        350,
-        24,
-        BLACK
-    );
-
-
-    // Wine / Wineries
-
-    if (game->Winery.amount > 0) {
-
-        DrawMedievalText(
-            TextFormat("Wine: %.2f barrels", game->wine),
-            30,
-            390,
-            30,
-            BLACK
-        );
-
-        DrawMedievalText(
-            TextFormat("Wineries: %d", game->Winery.amount),
-            30,
-            420,
-            30,
-            BLACK
-        );
-
-        DrawMedievalText(
-            TextFormat("Winery workers: %d", game->Winery.workers),
-            30,
-            450,
-            24,
-            BLACK
-        );
-    }
-
-
-    // Beer / Breweries
-
-    if (game->Brewery.amount > 0) {
-
-        DrawMedievalText(
-            TextFormat("Beer: %.2f barrels", game->beer),
-            30,
-            490,
-            30,
-            BLACK
-        );
-
-        DrawMedievalText(
-            TextFormat("Breweries: %d", game->Brewery.amount),
-            30,
-            520,
-            30,
-            BLACK
-        );
-
-        DrawMedievalText(
-            TextFormat("Brewery workers: %d", game->Brewery.workers),
-            30,
-            550,
-            24,
-            BLACK
-        );
-    }
 }
+
 
 
 void buildingButtons(void)
 {
-    Vector2 mouse = GetMousePosition();
-
-    Color farmColor = LIGHTGRAY;
-    Color wellColor = LIGHTGRAY;
-    Color wineryColor = LIGHTGRAY;
-    Color breweryColor = LIGHTGRAY;
+Rectangle farmButton;
+Rectangle wellButton;
+Rectangle wineryButton;
+Rectangle breweryButton;
 
 
-    // Hover / click
+GetBuildingButtons(
+    &farmButton,
+    &wellButton,
+    &wineryButton,
+    &breweryButton
+);
 
-    if (CheckCollisionPointRec(mouse, FARM_BUTTON)) {
+Vector2 mouse = GetMousePosition();
 
-        farmColor = IsMouseButtonDown(MOUSE_BUTTON_LEFT)
-                    ? DARKGRAY
-                    : GRAY;
-    }
+Color farmColor = LIGHTGRAY;
+Color wellColor = LIGHTGRAY;
+Color wineryColor = LIGHTGRAY;
+Color breweryColor = LIGHTGRAY;
 
-    if (CheckCollisionPointRec(mouse, WELL_BUTTON)) {
-
-        wellColor = IsMouseButtonDown(MOUSE_BUTTON_LEFT)
-                    ? DARKGRAY
-                    : GRAY;
-    }
-
-    if (CheckCollisionPointRec(mouse, WINERY_BUTTON)) {
-
-        wineryColor = IsMouseButtonDown(MOUSE_BUTTON_LEFT)
-                      ? DARKGRAY
-                      : GRAY;
-    }
-
-    if (CheckCollisionPointRec(mouse, BREWERY_BUTTON)) {
-
-        breweryColor = IsMouseButtonDown(MOUSE_BUTTON_LEFT)
-                       ? DARKGRAY
-                       : GRAY;
-    }
-
-
-    // Farm button
-
-    DrawRectangleRec(FARM_BUTTON, farmColor);
-
-    DrawMedievalText(
-        "Farm",
-        80,
-        628,
-        24,
-        BLACK
-    );
-
-    DrawMedievalText(
-        "5 gold",
-        85,
-        655,
-        16,
-        BLACK
-    );
-
-
-    // Well button
-
-    DrawRectangleRec(WELL_BUTTON, wellColor);
-
-    DrawMedievalText(
-        "Well",
-        290,
-        628,
-        24,
-        BLACK
-    );
-
-    DrawMedievalText(
-        "5 gold",
-        285,
-        655,
-        16,
-        BLACK
-    );
-
-
-    // Winery button
-
-    DrawRectangleRec(WINERY_BUTTON, wineryColor);
-
-    DrawMedievalText(
-        "Winery",
-        490,
-        628,
-        24,
-        BLACK
-    );
-
-    DrawMedievalText(
-        "10 gold",
-        485,
-        655,
-        16,
-        BLACK
-    );
-
-
-    // Brewery button
-
-    DrawRectangleRec(BREWERY_BUTTON, breweryColor);
-
-    DrawMedievalText(
-        "Brewery",
-        680,
-        628,
-        24,
-        BLACK
-    );
-
-    DrawMedievalText(
-        "10 gold",
-        675,
-        655,
-        16,
-        BLACK
-    );
+// Hover / click
+if (CheckCollisionPointRec(mouse, farmButton)) {
+    farmColor = IsMouseButtonDown(MOUSE_BUTTON_LEFT)
+                ? DARKGRAY
+                : GRAY;
 }
+
+if (CheckCollisionPointRec(mouse, wellButton)) {
+    wellColor = IsMouseButtonDown(MOUSE_BUTTON_LEFT)
+                ? DARKGRAY
+                : GRAY;
+}
+
+if (CheckCollisionPointRec(mouse, wineryButton)) {
+    wineryColor = IsMouseButtonDown(MOUSE_BUTTON_LEFT)
+                  ? DARKGRAY
+                  : GRAY;
+}
+
+if (CheckCollisionPointRec(mouse, breweryButton)) {
+    breweryColor = IsMouseButtonDown(MOUSE_BUTTON_LEFT)
+                   ? DARKGRAY
+                   : GRAY;
+}
+
+// Farm button
+DrawRectangleRec(farmButton, farmColor);
+
+DrawMedievalText(
+    "Farm",
+    farmButton.x + 50,
+    farmButton.y + 8,
+    24,
+    BLACK
+);
+
+DrawMedievalText(
+    "5 gold",
+    farmButton.x + 55,
+    farmButton.y + 35,
+    16,
+    BLACK
+);
+
+
+// Well button
+DrawRectangleRec(wellButton, wellColor);
+
+DrawMedievalText(
+    "Well",
+    wellButton.x + 60,
+    wellButton.y + 8,
+    24,
+    BLACK
+);
+
+DrawMedievalText(
+    "5 gold",
+    wellButton.x + 55,
+    wellButton.y + 35,
+    16,
+    BLACK
+);
+
+
+// Winery button
+DrawRectangleRec(wineryButton, wineryColor);
+
+DrawMedievalText(
+    "Winery",
+    wineryButton.x + 60,
+    wineryButton.y + 8,
+    24,
+    BLACK
+);
+
+DrawMedievalText(
+    "10 gold",
+    wineryButton.x + 55,
+    wineryButton.y + 35,
+    16,
+    BLACK
+);
+
+
+// Brewery button
+DrawRectangleRec(breweryButton, breweryColor);
+
+DrawMedievalText(
+    "Brewery",
+    breweryButton.x + 50,
+    breweryButton.y + 8,
+    24,
+    BLACK
+);
+
+DrawMedievalText(
+    "10 gold",
+    breweryButton.x + 45,
+    breweryButton.y + 35,
+    16,
+    BLACK
+);
+
+}
+
 
 
 void warningHUD(GameState *game)
@@ -343,33 +334,33 @@ void warningHUD(GameState *game)
 
         DrawMedievalText(
             warning,
-            1280 - textWidth - 30,
-            660,
+            GetScreenWidth() - textWidth - 30,
+            GetScreenHeight() - 60,
             30,
             RED
         );
     }
 
 
-    if (game->food == 0) {
+//     if (game->food == 0) {
 
-        const char *warning = "Out of food!";
+//         const char *warning = "Out of food!";
 
-        float textWidth = MeasureTextEx(
-            medievalFont,
-            warning,
-            30,
-            1
-        ).x;
+//         float textWidth = MeasureTextEx(
+//             medievalFont,
+//             warning,
+//             30,
+//             1
+//         ).x;
 
-        DrawMedievalText(
-            warning,
-            1280 - textWidth - 30,
-            690,
-            30,
-            RED
-        );
-    }
+//         DrawMedievalText(
+//             warning,
+//             1280 - textWidth - 30,
+//             690,
+//             30,
+//             RED
+//         );
+//     }
 }
 
 
@@ -382,10 +373,10 @@ void warningSystem(GameState *game)
     }
 
 
-    // FOOD
+    // GRAINS
 
-    if (game->food < 0) {
-        game->food = 0;
+    if (game->grains < 0) {
+        game->grains = 0;
     }
 
 

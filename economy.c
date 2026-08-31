@@ -20,8 +20,7 @@ void updateEconomy(GameState *game) {
             game->water -= game->population * 0.02;
         }
 
-        if (game->food > 0) {
-            game->food -= game->population * 0.02;
+        if (game->grains > 0) {
         }
 
         if (game->wine > 0) {
@@ -66,7 +65,7 @@ void updateEconomy(GameState *game) {
         // WEEKLY PRODUCTION
 
         game->gold += game->population * 0.025;
-        game->food += game->Farm.amount * 0.02;
+        game->grains += game->Farm.amount * 0.02;
 
 
         // BREWERY PRODUCTION
@@ -99,7 +98,7 @@ void updateEconomy(GameState *game) {
         if (game->Farm.amount > 0) {
 
             for (int i = 1; i <= game->Farm.amount; i++) {
-                game->food += 10;
+                game->grains += 10;
             }
         }
 
@@ -124,11 +123,12 @@ void updateEconomy(GameState *game) {
         }
 
 
-        // WINERY WATER CONSUMPTION
+        // WINERY WATER AND GRAINS CONSUMPTION
 
         if (game->Winery.amount > 0) {
 
             for (int i = 1; i <= game->Winery.amount; i++) {
+                game->grains -= 15;
                 game->water -= 15;
             }
         }

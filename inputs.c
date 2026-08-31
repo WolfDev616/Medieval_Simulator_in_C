@@ -9,9 +9,20 @@ void inputMap(GameState *game) {
     if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
 
         Vector2 mouse = GetMousePosition();
+        Rectangle farmButton;
+        Rectangle wellButton;
+        Rectangle wineryButton;
+        Rectangle breweryButton;
+
+        GetBuildingButtons(
+            &farmButton,
+            &wellButton,
+            &wineryButton,
+            &breweryButton
+);
     
 
-        if (CheckCollisionPointRec(mouse, FARM_BUTTON)) {
+        if (CheckCollisionPointRec(mouse, farmButton)) {
 
             if (game->gold >= 5) {
                 game->Farm.amount += 1;
@@ -31,7 +42,7 @@ void inputMap(GameState *game) {
             }
         }
 
-        else if (CheckCollisionPointRec(mouse, WELL_BUTTON)) {
+        else if (CheckCollisionPointRec(mouse, wellButton)) {
 
             if (game->gold >= 5) {
                 game->Well.amount += 1;
@@ -50,7 +61,7 @@ void inputMap(GameState *game) {
             }
         }
 
-        else if (CheckCollisionPointRec(mouse, WINERY_BUTTON)) {
+        else if (CheckCollisionPointRec(mouse, wineryButton)) {
 
             if (game->gold >= 10) {
                 game->Winery.amount += 1;
@@ -69,7 +80,7 @@ void inputMap(GameState *game) {
             }
         }
 
-        else if (CheckCollisionPointRec(mouse, BREWERY_BUTTON)) {
+        else if (CheckCollisionPointRec(mouse, breweryButton)) {
 
             if (game->gold >= 10) {
                 game->Brewery.amount += 1;

@@ -20,12 +20,15 @@ typedef struct GameState {
     int population;
     int workers;
     int idlePopulation;
-    float food;
+    float grains;
     float water;
+    float bread;
     float wine;
     float beer;
     Workplace Farm;
     Workplace Well;
+    Workplace Mill;
+    Workplace Bakery;
     Workplace Winery;
     Workplace Brewery;
 

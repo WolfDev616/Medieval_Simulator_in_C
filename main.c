@@ -17,8 +17,14 @@ int main() {
         loadGame(&game);
 
 
+    // WINDOW SIZE
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(1280, 720, "Medieval Simulator");
-    InitAudioDevice();              // Initialize audio device
+    SetWindowMinSize(1000, 700);
+
+
+    // MUSIC
+    InitAudioDevice();
 
     Music music = LoadMusicStream("/home/andreas/Programação/C Projects/Medieval_Simulator/sounds/MidnightWalk.mp3");
     PlayMusicStream(music);

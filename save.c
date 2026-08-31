@@ -21,15 +21,19 @@ void loadGame(GameState *game) {
         game->population = 100;
         game->workers = 0;
         game->idlePopulation = game->population - game->workers;
-        game->food = 100;
-        game->water = 50;
-
+        
         game->Farm.amount = 0;
+        game->grains = 100;
+        game->bread = 0;
+
         game->Well.amount = 0;
-        game->wine = 0;
+        game->water = 50;
+        
         game->Winery.amount = 0;
-        game->beer = 0;
+        game->wine = 0;
+        
         game->Brewery.amount = 0;
+        game->beer = 0;
 
         game->lastDay = 0;
         game->lastWeek = 0;
@@ -46,15 +50,19 @@ void loadGame(GameState *game) {
         game->population = 100;
         game->workers = 0;
         game->idlePopulation = game->population - game->workers;
-        game->food = 100;
-        game->water = 50;
-
+        
         game->Farm.amount = 0;
+        game->grains = 100;
+        game->bread = 0;
+        
         game->Well.amount = 0;
-        game->wine = 0;
+        game->water = 50;
+        
         game->Winery.amount = 0;
-        game->beer = 0;
+        game->wine = 0;
+        
         game->Brewery.amount = 0;
+        game->beer = 0;
 
         game->lastDay = 0;
         game->lastWeek = 0;
