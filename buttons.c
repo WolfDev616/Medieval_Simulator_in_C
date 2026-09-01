@@ -24,7 +24,6 @@ void GetBuildingButtons(
 
     float y = screenHeight - buttonHeight - 30;
 
-    // ...
 
     *farm = (Rectangle){
         startX,

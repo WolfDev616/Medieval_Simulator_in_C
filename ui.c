@@ -107,6 +107,91 @@ void DrawProductionCell(
 
 }
 
+void resourcesHUD(GameState *game)
+{
+    float margin = 30;
+    float startY = 80;
+
+    float columnWidth = GetScreenWidth() / 4.0f;;
+    float rowHeight = 35;
+
+// Population
+    DrawMedievalText(
+        TextFormat("Population: %d", game->population),
+        margin,
+        startY,
+        24,
+        BLACK
+    );
+
+    DrawMedievalText(
+        TextFormat("Idle Population: %d", game->idlePopulation),
+        margin + columnWidth,
+        startY,
+        24,
+        BLACK
+    );
+
+    DrawMedievalText(
+        TextFormat("Workers: %d", game->workers),
+        margin + (columnWidth * 2),
+        startY,
+        24,
+        BLACK
+    );
+
+    DrawMedievalText(
+        TextFormat("Gold: %d", game->gold),
+        margin + (columnWidth * 3),
+        startY,
+        24,
+        BLACK
+    );
+
+
+    // Resources
+    DrawMedievalText(
+        TextFormat("Grains: %.2f", game->grains),
+        margin,
+        startY + rowHeight,
+        22,
+        BLACK
+    );
+
+    DrawMedievalText(
+        TextFormat("Water: %.2f", game->water),
+        margin + columnWidth,
+        startY + rowHeight,
+        22,
+        BLACK
+    );
+
+    DrawMedievalText(
+        TextFormat("Bread: %.2f", game->bread),
+        margin + (columnWidth * 2),
+        startY + rowHeight,
+        22,
+        BLACK
+    );
+
+    DrawMedievalText(
+        TextFormat("Wine: %.2f", game->wine),
+        margin + (columnWidth * 3),
+        startY + rowHeight,
+        22,
+        BLACK
+    );
+
+    DrawMedievalText(
+        TextFormat("Beer: %.2f", game->beer),
+        margin,
+        startY + (rowHeight * 2),
+        22,
+        BLACK
+    );
+
+}
+
 
 void productionHUD(GameState *game)
 {
@@ -118,7 +203,7 @@ void productionHUD(GameState *game)
     int rows = 4;
 
     float margin = 30;
-    float top = 100;
+    float top = 190;
     float bottom = 120;
 
     float gridWidth = screenWidth - (margin * 2);

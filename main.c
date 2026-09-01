@@ -37,6 +37,7 @@ int main() {
         UpdateMusicStream(music);
 
         timeCounter(&game);
+        resourcesHUD(&game);
         inputMap(&game);
         updateEconomy(&game);
         updateIdlePopulation(&game);
