@@ -2,55 +2,86 @@
 #include "buttons.h"
 
 void GetBuildingButtons(
-    Rectangle *farm,
-    Rectangle *well,
-    Rectangle *winery,
-    Rectangle *brewery
+Rectangle *farm,
+Rectangle *well,
+Rectangle *mill,
+Rectangle *bakery,
+Rectangle *winery,
+Rectangle *brewery
 )
 {
-    int screenWidth = GetScreenWidth();
-    int screenHeight = GetScreenHeight();
-
-    float margin = 30;
-    float spacing = 20;
-
-    float availableWidth =
-        screenWidth - (margin * 2) - (spacing * 3);
-
-    float buttonWidth = availableWidth / 4.0f;
-    float buttonHeight = 50;
-
-    float startX = margin;
-
-    float y = screenHeight - buttonHeight - 30;
+int screenWidth = GetScreenWidth();
+int screenHeight = GetScreenHeight();
 
 
-    *farm = (Rectangle){
-        startX,
-        y,
-        buttonWidth,
-        buttonHeight
-    };
+const int columns = 3;
 
-    *well = (Rectangle){
-        startX + buttonWidth + spacing,
-        y,
-        buttonWidth,
-        buttonHeight
-    };
+float margin = 30;
+float spacing = 15;
 
-    *winery = (Rectangle){
-        startX + (buttonWidth + spacing) * 2,
-        y,
-        buttonWidth,
-        buttonHeight
-    };
+float buttonHeight = 60;
 
-    *brewery = (Rectangle){
-        startX + (buttonWidth + spacing) * 3,
-        y,
-        buttonWidth,
-        buttonHeight
+float availableWidth =
+    screenWidth
+    - (margin * 2)
+    - (spacing * (columns - 1));
+
+float buttonWidth =
+    availableWidth / columns;
+
+float bottomMargin = 30;
+
+float startY =
+    screenHeight
+    - (buttonHeight * 2)
+    - spacing
+    - bottomMargin;
+
+// First row
+
+*farm = (Rectangle){
+    margin,
+    startY,
+    buttonWidth,
+    buttonHeight
+};
+
+*well = (Rectangle){
+    margin + buttonWidth + spacing,
+    startY,
+    buttonWidth,
+    buttonHeight
+};
+
+*mill = (Rectangle){
+    margin + (buttonWidth + spacing) * 2,
+    startY,
+    buttonWidth,
+    buttonHeight
+};
+
+
+// Second row
+
+*bakery = (Rectangle){
+    margin,
+    startY + buttonHeight + spacing,
+    buttonWidth,
+    buttonHeight
+};
+
+*winery = (Rectangle){
+    margin + buttonWidth + spacing,
+    startY + buttonHeight + spacing,
+    buttonWidth,
+    buttonHeight
+};
+
+*brewery = (Rectangle){
+    margin + (buttonWidth + spacing) * 2,
+    startY + buttonHeight + spacing,
+    buttonWidth,
+    buttonHeight
 };
 
 }

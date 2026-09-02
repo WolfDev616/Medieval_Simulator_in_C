@@ -183,8 +183,16 @@ void resourcesHUD(GameState *game)
     );
 
     DrawMedievalText(
-        TextFormat("Beer: %.2f", game->beer),
+        TextFormat("Flour: %.2f", game->flour),
         margin,
+        startY + (rowHeight * 2),
+        22,
+        BLACK
+    );
+
+    DrawMedievalText(
+        TextFormat("Beer: %.2f", game->beer),
+        margin + columnWidth,
         startY + (rowHeight * 2),
         22,
         BLACK
@@ -278,6 +286,8 @@ void buildingButtons(void)
 {
 Rectangle farmButton;
 Rectangle wellButton;
+Rectangle millButton;
+Rectangle bakeryButton;
 Rectangle wineryButton;
 Rectangle breweryButton;
 
@@ -285,6 +295,8 @@ Rectangle breweryButton;
 GetBuildingButtons(
     &farmButton,
     &wellButton,
+    &millButton,
+    &bakeryButton,
     &wineryButton,
     &breweryButton
 );
@@ -293,6 +305,8 @@ Vector2 mouse = GetMousePosition();
 
 Color farmColor = LIGHTGRAY;
 Color wellColor = LIGHTGRAY;
+Color millColor = LIGHTGRAY;
+Color bakeryColor = LIGHTGRAY;
 Color wineryColor = LIGHTGRAY;
 Color breweryColor = LIGHTGRAY;
 
@@ -305,6 +319,18 @@ if (CheckCollisionPointRec(mouse, farmButton)) {
 
 if (CheckCollisionPointRec(mouse, wellButton)) {
     wellColor = IsMouseButtonDown(MOUSE_BUTTON_LEFT)
+                ? DARKGRAY
+                : GRAY;
+}
+
+if (CheckCollisionPointRec(mouse, millButton)) {
+    millColor = IsMouseButtonDown(MOUSE_BUTTON_LEFT)
+                ? DARKGRAY
+                : GRAY;
+}
+
+if (CheckCollisionPointRec(mouse, bakeryButton)) {
+    bakeryColor = IsMouseButtonDown(MOUSE_BUTTON_LEFT)
                 ? DARKGRAY
                 : GRAY;
 }
@@ -361,6 +387,46 @@ DrawMedievalText(
 );
 
 
+// Mill button
+DrawRectangleRec(millButton, millColor);
+
+DrawMedievalText(
+    "Mill",
+    millButton.x + 60,
+    millButton.y + 8,
+    24,
+    BLACK
+);
+
+DrawMedievalText(
+    "10 gold",
+    millButton.x + 55,
+    millButton.y + 35,
+    16,
+    BLACK
+);
+
+
+// Bakery button
+DrawRectangleRec(bakeryButton, bakeryColor);
+
+DrawMedievalText(
+    "Bakery",
+    bakeryButton.x + 50,
+    bakeryButton.y + 8,
+    24,
+    BLACK
+);
+
+DrawMedievalText(
+    "12 gold",
+    bakeryButton.x + 55,
+    bakeryButton.y + 35,
+    16,
+    BLACK
+);
+
+
 // Winery button
 DrawRectangleRec(wineryButton, wineryColor);
 
@@ -399,7 +465,6 @@ DrawMedievalText(
     16,
     BLACK
 );
-
 }
 
 
@@ -427,25 +492,25 @@ void warningHUD(GameState *game)
     }
 
 
-//     if (game->food == 0) {
+    if (game->bread == 0) {
 
-//         const char *warning = "Out of food!";
+        const char *warning = "Out of food!";
 
-//         float textWidth = MeasureTextEx(
-//             medievalFont,
-//             warning,
-//             30,
-//             1
-//         ).x;
+        float textWidth = MeasureTextEx(
+            medievalFont,
+            warning,
+            30,
+            1
+        ).x;
 
-//         DrawMedievalText(
-//             warning,
-//             1280 - textWidth - 30,
-//             690,
-//             30,
-//             RED
-//         );
-//     }
+        DrawMedievalText(
+            warning,
+            1280 - textWidth - 30,
+            690,
+            30,
+            RED
+        );
+    }
 }
 
 
@@ -457,13 +522,11 @@ void warningSystem(GameState *game)
         game->water = 0;
     }
 
-
     // GRAINS
 
     if (game->grains < 0) {
         game->grains = 0;
     }
-
 
     // WINE
 
@@ -471,10 +534,21 @@ void warningSystem(GameState *game)
         game->wine = 0;
     }
 
-
     // BEER
 
     if (game->beer < 0) {
         game->beer = 0;
+    }
+
+    // FLOUR
+
+    if (game->flour < 0) {
+        game->flour = 0;
+    }
+
+    // BREAD
+
+    if (game->bread < 0) {
+        game->bread = 0;
     }
 }

@@ -6,6 +6,8 @@
 void GetBuildingButtons(
     Rectangle *farm,
     Rectangle *well,
+    Rectangle *mill,
+    Rectangle *bakery,
     Rectangle *winery,
     Rectangle *brewery
 );

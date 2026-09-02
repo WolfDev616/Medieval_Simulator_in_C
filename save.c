@@ -24,10 +24,13 @@ void loadGame(GameState *game) {
         
         game->Farm.amount = 0;
         game->grains = 100;
-        game->bread = 0;
+        game->bread = 10;
 
         game->Well.amount = 0;
         game->water = 50;
+
+        game->Mill.amount = 0;
+        game->flour = 50;
         
         game->Winery.amount = 0;
         game->wine = 0;
@@ -53,11 +56,14 @@ void loadGame(GameState *game) {
         
         game->Farm.amount = 0;
         game->grains = 100;
-        game->bread = 0;
+        game->bread = 10;
         
         game->Well.amount = 0;
         game->water = 50;
         
+        game->Mill.amount = 0;
+        game->flour = 50;
+
         game->Winery.amount = 0;
         game->wine = 0;
         

@@ -22,6 +22,7 @@ typedef struct GameState {
     int idlePopulation;
     float grains;
     float water;
+    float flour;
     float bread;
     float wine;
     float beer;

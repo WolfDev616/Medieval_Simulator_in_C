@@ -11,12 +11,16 @@ void inputMap(GameState *game) {
         Vector2 mouse = GetMousePosition();
         Rectangle farmButton;
         Rectangle wellButton;
+        Rectangle millButton;
+        Rectangle bakeryButton;
         Rectangle wineryButton;
         Rectangle breweryButton;
 
         GetBuildingButtons(
             &farmButton,
             &wellButton,
+            &millButton,
+            &bakeryButton,
             &wineryButton,
             &breweryButton
 );
@@ -49,6 +53,44 @@ void inputMap(GameState *game) {
                 game->gold -= 5;
                 game->workers += 1;
                 game->Well.workers += 1;
+            }
+            else {
+                snprintf(
+                    game->warningMessage,
+                    sizeof(game->warningMessage),
+                    "There is not enough gold!"
+                );
+
+                game->warningTimer = 3.0f;
+            }
+        }
+
+        else if (CheckCollisionPointRec(mouse, millButton)) {
+
+            if (game->gold >= 10) {
+                game->Mill.amount += 1;
+                game->gold -= 10;
+                game->workers += 1;
+                game->Mill.workers += 1;
+            }
+            else {
+                snprintf(
+                    game->warningMessage,
+                    sizeof(game->warningMessage),
+                    "There is not enough gold!"
+                );
+
+                game->warningTimer = 3.0f;
+            }
+        }
+
+        else if (CheckCollisionPointRec(mouse, bakeryButton)) {
+
+            if (game->gold >= 12) {
+                game->Bakery.amount += 1;
+                game->gold -= 12;
+                game->workers += 1;
+                game->Bakery.workers += 1;
             }
             else {
                 snprintf(
