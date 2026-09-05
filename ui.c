@@ -1,12 +1,43 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <stdbool.h>
 
 #include "raylib.h"
 #include "time.h"
 #include "ui.h"
 #include "game.h"
 #include "buttons.h"
+
+
+void UpdateReveal(Reveal *r, bool unlocked)
+{
+    if (!unlocked) return;      // requirement not met yet: stays hidden
+
+    if (r->revealed) {
+        r->alpha = 255.0f;      // already unlocked before: show instantly, no animation
+        return;
+    }
+
+    r->alpha += 100.0f * GetFrameTime();
+
+    if (r->alpha >= 255.0f) {
+        r->alpha = 255.0f;
+        r->revealed = true;     // mark as permanently unlocked from now on
+    }
+}
+
+void updateRevealAlpha(GameState *game)
+{
+    UpdateReveal(&game->farmReveal,    true);                     // available from the start
+    UpdateReveal(&game->wellReveal,    true);                     // available from the start
+    UpdateReveal(&game->millReveal,    game->Farm.amount > 3);
+    UpdateReveal(&game->bakeryReveal,  game->Mill.amount > 1);
+    UpdateReveal(&game->wineReveal,    game->workers > 10);
+    UpdateReveal(&game->wineryReveal,  game->workers > 10);
+    UpdateReveal(&game->beerReveal,    game->workers > 10);
+    UpdateReveal(&game->breweryReveal, game->workers > 10);
+}
 
 
 Font medievalFont;
@@ -22,7 +53,6 @@ void DrawMedievalText(const char *text, int x, int y, float size, Color color)
         color
     );
 }
-
 
 void timerHUD(GameState *game)
 {
@@ -55,12 +85,17 @@ void DrawProductionCell(
     float top,
     const char *name,
     int amount,
-    int workers
-    )
-    {
+    int workers,
+    float alpha
+)
+{
     float x = margin + (column * cellWidth);
     float y = top + (row * cellHeight);
 
+    Color revealColor = Fade(
+        BLACK,
+        alpha / 255.0f
+    );
 
     // Cell border
     DrawRectangleLines(
@@ -68,7 +103,7 @@ void DrawProductionCell(
         (int)y,
         (int)cellWidth,
         (int)cellHeight,
-        BLACK
+        revealColor
     );
 
     // Production name
@@ -84,7 +119,7 @@ void DrawProductionCell(
         x + (cellWidth - nameWidth) / 2,
         y + 15,
         26,
-        BLACK
+        revealColor
     );
 
     // Number of establishments
@@ -93,7 +128,7 @@ void DrawProductionCell(
         x + 20,
         y + cellHeight * 0.50f,
         20,
-        BLACK
+        revealColor
     );
 
     // Number of workers
@@ -102,20 +137,19 @@ void DrawProductionCell(
         x + 20,
         y + cellHeight * 0.70f,
         20,
-        BLACK
+        revealColor
     );
-
 }
 
 void resourcesHUD(GameState *game)
 {
     float margin = 30;
     float startY = 80;
-
-    float columnWidth = GetScreenWidth() / 4.0f;;
+    float columnWidth = GetScreenWidth() / 4.0f;
     float rowHeight = 35;
 
 // Population
+
     DrawMedievalText(
         TextFormat("Population: %d", game->population),
         margin,
@@ -148,8 +182,8 @@ void resourcesHUD(GameState *game)
         BLACK
     );
 
-
     // Resources
+
     DrawMedievalText(
         TextFormat("Grains: %.2f", game->grains),
         margin,
@@ -174,13 +208,16 @@ void resourcesHUD(GameState *game)
         BLACK
     );
 
-    DrawMedievalText(
-        TextFormat("Wine: %.2f", game->wine),
-        margin + (columnWidth * 3),
-        startY + rowHeight,
-        22,
-        BLACK
-    );
+    if (game->workers > 10) {
+
+        DrawMedievalText(
+            TextFormat("Wine: %.2f", game->wine),
+            margin + (columnWidth * 3),
+            startY + rowHeight,
+            22,
+            Fade(BLACK, game->wineReveal.alpha / 255.0f)
+        );
+    }
 
     DrawMedievalText(
         TextFormat("Flour: %.2f", game->flour),
@@ -190,14 +227,16 @@ void resourcesHUD(GameState *game)
         BLACK
     );
 
-    DrawMedievalText(
-        TextFormat("Beer: %.2f", game->beer),
-        margin + columnWidth,
-        startY + (rowHeight * 2),
-        22,
-        BLACK
-    );
+    if (game->workers > 10) {
 
+        DrawMedievalText(
+            TextFormat("Beer: %.2f", game->beer),
+            margin + columnWidth,
+            startY + (rowHeight * 2),
+            22,
+            Fade(BLACK, game->beerReveal.alpha / 255.0f)
+        );
+    }
 }
 
 
@@ -207,6 +246,7 @@ void productionHUD(GameState *game)
     int screenHeight = GetScreenHeight();
 
     // Grid dimensions
+
     int columns = 4;
     int rows = 4;
 
@@ -221,13 +261,15 @@ void productionHUD(GameState *game)
     float cellHeight = gridHeight / rows;
 
     // Row 1
+
     DrawProductionCell(
         0, 0,
         cellWidth, cellHeight,
         margin, top,
         "Farm",
         game->Farm.amount,
-        game->Farm.workers
+        game->Farm.workers,
+        game->farmReveal.alpha
     );
 
     DrawProductionCell(
@@ -236,53 +278,66 @@ void productionHUD(GameState *game)
         margin, top,
         "Well",
         game->Well.amount,
-        game->Well.workers
+        game->Well.workers,
+        game->wellReveal.alpha
     );
 
-    DrawProductionCell(
-        2, 0,
-        cellWidth, cellHeight,
-        margin, top,
-        "Mill",
-        game->Mill.amount,
-        game->Mill.workers
-    );
+    if (game->Farm.amount > 3) {
 
-    DrawProductionCell(
-        3, 0,
-        cellWidth, cellHeight,
-        margin, top,
-        "Bakery",
-        game->Bakery.amount,
-        game->Bakery.workers
-    );
+        DrawProductionCell(
+            2, 0,
+            cellWidth, cellHeight,
+            margin, top,
+            "Mill",
+            game->Mill.amount,
+            game->Mill.workers,
+            game->millReveal.alpha
+        );
+    }
+
+    if (game->Mill.amount > 1) {
+
+        DrawProductionCell(
+            3, 0,
+            cellWidth, cellHeight,
+            margin, top,
+            "Bakery",
+            game->Bakery.amount,
+            game->Bakery.workers,
+            game->bakeryReveal.alpha
+        );
+    }
 
     // Row 2
-    DrawProductionCell(
-        0, 1,
-        cellWidth, cellHeight,
-        margin, top,
-        "Winery",
-        game->Winery.amount,
-        game->Winery.workers
-    );
 
-    DrawProductionCell(
-        1, 1,
-        cellWidth, cellHeight,
-        margin, top,
-        "Brewery",
-        game->Brewery.amount,
-        game->Brewery.workers
-    );
+    if (game->workers > 10){
+
+        DrawProductionCell(
+            0, 1,
+            cellWidth, cellHeight,
+            margin, top,
+            "Winery",
+            game->Winery.amount,
+            game->Winery.workers,
+            game->wineryReveal.alpha
+        );
+
+        DrawProductionCell(
+            1, 1,
+            cellWidth, cellHeight,
+            margin, top,
+            "Brewery",
+            game->Brewery.amount,
+            game->Brewery.workers,
+            game->breweryReveal.alpha
+        );
+    }
 
 // Empty cells reserved for future productions
-
 }
 
 
-
-void buildingButtons(void)
+void buildingButtons(GameState *game)
 {
 Rectangle farmButton;
 Rectangle wellButton;
@@ -290,7 +345,6 @@ Rectangle millButton;
 Rectangle bakeryButton;
 Rectangle wineryButton;
 Rectangle breweryButton;
-
 
 GetBuildingButtons(
     &farmButton,
@@ -311,43 +365,51 @@ Color wineryColor = LIGHTGRAY;
 Color breweryColor = LIGHTGRAY;
 
 // Hover / click
+
 if (CheckCollisionPointRec(mouse, farmButton)) {
+    
     farmColor = IsMouseButtonDown(MOUSE_BUTTON_LEFT)
-                ? DARKGRAY
-                : GRAY;
+    ? DARKGRAY
+    : GRAY;
 }
 
 if (CheckCollisionPointRec(mouse, wellButton)) {
+    
     wellColor = IsMouseButtonDown(MOUSE_BUTTON_LEFT)
-                ? DARKGRAY
-                : GRAY;
+    ? DARKGRAY
+    : GRAY;
 }
 
 if (CheckCollisionPointRec(mouse, millButton)) {
+    
     millColor = IsMouseButtonDown(MOUSE_BUTTON_LEFT)
-                ? DARKGRAY
-                : GRAY;
+    ? DARKGRAY
+    : GRAY;
 }
 
 if (CheckCollisionPointRec(mouse, bakeryButton)) {
+    
     bakeryColor = IsMouseButtonDown(MOUSE_BUTTON_LEFT)
-                ? DARKGRAY
-                : GRAY;
+    ? DARKGRAY
+    : GRAY;
 }
 
 if (CheckCollisionPointRec(mouse, wineryButton)) {
+    
     wineryColor = IsMouseButtonDown(MOUSE_BUTTON_LEFT)
-                  ? DARKGRAY
-                  : GRAY;
+    ? DARKGRAY
+    : GRAY;
 }
 
 if (CheckCollisionPointRec(mouse, breweryButton)) {
+    
     breweryColor = IsMouseButtonDown(MOUSE_BUTTON_LEFT)
-                   ? DARKGRAY
-                   : GRAY;
+    ? DARKGRAY
+    : GRAY;
 }
 
 // Farm button
+
 DrawRectangleRec(farmButton, farmColor);
 
 DrawMedievalText(
@@ -368,6 +430,7 @@ DrawMedievalText(
 
 
 // Well button
+
 DrawRectangleRec(wellButton, wellColor);
 
 DrawMedievalText(
@@ -386,87 +449,137 @@ DrawMedievalText(
     BLACK
 );
 
-
 // Mill button
-DrawRectangleRec(millButton, millColor);
 
-DrawMedievalText(
-    "Mill",
-    millButton.x + 60,
-    millButton.y + 8,
-    24,
-    BLACK
-);
+if (game->Farm.amount > 3) {
 
-DrawMedievalText(
-    "10 gold",
-    millButton.x + 55,
-    millButton.y + 35,
-    16,
-    BLACK
-);
+    Color millRevealColor =
+        Fade(millColor, game->millReveal.alpha / 255.0f);
+
+    Color millTextColor =
+        Fade(BLACK, game->millReveal.alpha / 255.0f);
+
+    DrawRectangleRec(
+        millButton,
+        millRevealColor
+    );
+
+    DrawMedievalText(
+        "Mill",
+        millButton.x + 60,
+        millButton.y + 8,
+        24,
+        millTextColor
+    );
+
+    DrawMedievalText(
+        "10 gold",
+        millButton.x + 55,
+        millButton.y + 35,
+        16,
+        millTextColor
+    );
+}
 
 
 // Bakery button
-DrawRectangleRec(bakeryButton, bakeryColor);
 
-DrawMedievalText(
-    "Bakery",
-    bakeryButton.x + 50,
-    bakeryButton.y + 8,
-    24,
-    BLACK
-);
+if (game->Mill.amount > 1) {
 
-DrawMedievalText(
-    "12 gold",
-    bakeryButton.x + 55,
-    bakeryButton.y + 35,
-    16,
-    BLACK
-);
+    Color bakeryRevealColor =
+        Fade(bakeryColor, game->bakeryReveal.alpha / 255.0f);
+
+    Color bakeryTextColor =
+        Fade(BLACK, game->bakeryReveal.alpha / 255.0f);
+
+    DrawRectangleRec(
+        bakeryButton,
+        bakeryRevealColor
+    );
+
+    DrawMedievalText(
+        "Bakery",
+        bakeryButton.x + 50,
+        bakeryButton.y + 8,
+        24,
+        bakeryTextColor
+    );
+
+    DrawMedievalText(
+        "12 gold",
+        bakeryButton.x + 55,
+        bakeryButton.y + 35,
+        16,
+        bakeryTextColor
+    );
+}
 
 
 // Winery button
-DrawRectangleRec(wineryButton, wineryColor);
 
-DrawMedievalText(
-    "Winery",
-    wineryButton.x + 60,
-    wineryButton.y + 8,
-    24,
-    BLACK
-);
+if (game->workers > 10) {
 
-DrawMedievalText(
-    "10 gold",
-    wineryButton.x + 55,
-    wineryButton.y + 35,
-    16,
-    BLACK
-);
+    Color wineryRevealColor =
+        Fade(wineryColor, game->wineryReveal.alpha / 255.0f);
+
+    Color wineryTextColor =
+        Fade(BLACK, game->wineryReveal.alpha / 255.0f);
+
+    DrawRectangleRec(
+        wineryButton,
+        wineryRevealColor
+    );
+
+    DrawMedievalText(
+        "Winery",
+        wineryButton.x + 60,
+        wineryButton.y + 8,
+        24,
+        wineryTextColor
+    );
+
+    DrawMedievalText(
+        "10 gold",
+        wineryButton.x + 55,
+        wineryButton.y + 35,
+        16,
+        wineryTextColor
+    );
+}
 
 
 // Brewery button
-DrawRectangleRec(breweryButton, breweryColor);
 
-DrawMedievalText(
-    "Brewery",
-    breweryButton.x + 50,
-    breweryButton.y + 8,
-    24,
-    BLACK
-);
+if (game->workers > 10) {
 
-DrawMedievalText(
-    "10 gold",
-    breweryButton.x + 45,
-    breweryButton.y + 35,
-    16,
-    BLACK
-);
+    Color breweryRevealColor =
+        Fade(breweryColor, game->breweryReveal.alpha / 255.0f);
+
+    Color breweryTextColor =
+        Fade(BLACK, game->breweryReveal.alpha / 255.0f);
+
+    DrawRectangleRec(
+        breweryButton,
+        breweryRevealColor
+    );
+
+    DrawMedievalText(
+        "Brewery",
+        breweryButton.x + 50,
+        breweryButton.y + 8,
+        24,
+        breweryTextColor
+    );
+
+    DrawMedievalText(
+        "10 gold",
+        breweryButton.x + 45,
+        breweryButton.y + 35,
+        16,
+        breweryTextColor
+    );
 }
-
+}
 
 
 void warningHUD(GameState *game)
@@ -491,7 +604,6 @@ void warningHUD(GameState *game)
         );
     }
 
-
     if (game->bread == 0) {
 
         const char *warning = "Out of food!";
@@ -505,8 +617,8 @@ void warningHUD(GameState *game)
 
         DrawMedievalText(
             warning,
-            1280 - textWidth - 30,
-            690,
+            GetScreenWidth() - textWidth - 30,
+            GetScreenHeight() - 60,
             30,
             RED
         );

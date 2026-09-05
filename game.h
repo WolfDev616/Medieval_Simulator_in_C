@@ -1,15 +1,23 @@
 #ifndef GAME_H
 #define GAME_H
 #include "time.h"
+#include <stdbool.h>
+
 
 typedef struct {
     int amount;
     int workers;
-} Workplace;        
+} Workplace;       
+
+typedef struct {
+    float alpha;     // current visual alpha
+    bool  revealed;  // true once it has fully faded in at least once (ever)
+} Reveal;
 
 typedef struct GameState {
     GameTime time;
 	float timeAccumulator;
+    int revealed;
 
     char warningMessage[100];
     float warningTimer;
@@ -32,6 +40,16 @@ typedef struct GameState {
     Workplace Bakery;
     Workplace Winery;
     Workplace Brewery;
+
+
+    Reveal farmReveal;
+    Reveal wellReveal;
+    Reveal millReveal;
+    Reveal bakeryReveal;
+    Reveal wineReveal;
+    Reveal wineryReveal;
+    Reveal beerReveal;
+    Reveal breweryReveal;
 
     
     // Control

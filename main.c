@@ -41,6 +41,7 @@ int main() {
         inputMap(&game);
         updateEconomy(&game);
         updateIdlePopulation(&game);
+        updateRevealAlpha(&game);
         warningSystem(&game);
 
         BeginDrawing();
@@ -48,7 +49,7 @@ int main() {
 
         timerHUD(&game);
         productionHUD(&game);
-        buildingButtons();
+        buildingButtons(&game);
         warningHUD(&game);
 
         EndDrawing();

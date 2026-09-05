@@ -10,9 +10,9 @@ void timeCounter(GameState *game) {
 
     game->timeAccumulator += GetFrameTime();
 
-	if (game->timeAccumulator >= 2.0f) {
+	if (game->timeAccumulator >= 2.5f) {
 
-        game->timeAccumulator -= 2.0f;
+        game->timeAccumulator -= 2.5f;
 
         game->time.days += 1;
 	}

@@ -18,7 +18,7 @@ void loadGame(GameState *game) {
         *game = (GameState){0};
 
         game->gold = 100;
-        game->population = 100;
+        game->population = 40;
         game->workers = 0;
         game->idlePopulation = game->population - game->workers;
         
@@ -50,7 +50,7 @@ void loadGame(GameState *game) {
         *game = (GameState){0};
 
         game->gold = 100;
-        game->population = 100;
+        game->population = 40;
         game->workers = 0;
         game->idlePopulation = game->population - game->workers;
         

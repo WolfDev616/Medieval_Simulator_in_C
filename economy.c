@@ -11,7 +11,7 @@
 
 void updateEconomy(GameState *game) {
 
-    // DAILY ECONOMY
+    // DAILY ECONOMY 
     if (game->time.days != game->lastDay) {
 
         // DAILY CONSUMPTION
@@ -21,7 +21,7 @@ void updateEconomy(GameState *game) {
         }
         
         if (game->bread > 0) {
-            game->bread -= game->population * 0.05;
+            game->bread -= game->population * 0.01;
         }
 
         if (game->wine > 0) {
@@ -78,8 +78,7 @@ void updateEconomy(GameState *game) {
 
         // WEEKLY PRODUCTION
 
-        game->gold += game->population * 0.025;
-        game->grains += game->Farm.amount * 0.02;
+        game->gold += game->population * 0.08;
 
         if (game->Mill.amount > 0) {
 
@@ -100,7 +99,7 @@ void updateEconomy(GameState *game) {
                 if (game->grains > 5 && game->water > 5) {
                     game->water -= 5;
                     game->grains -= 5;
-                    game->beer += 8;
+                    game->beer += 15;
                 }
             }
         }
