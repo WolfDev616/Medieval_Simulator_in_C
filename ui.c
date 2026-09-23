@@ -32,11 +32,13 @@ void updateRevealAlpha(GameState *game)
     UpdateReveal(&game->farmReveal,    true);                     // available from the start
     UpdateReveal(&game->wellReveal,    true);                     // available from the start
     UpdateReveal(&game->millReveal,    game->Farm.amount > 3);
-    UpdateReveal(&game->bakeryReveal,  game->Mill.amount > 1);
+    UpdateReveal(&game->bakeryReveal,  game->Mill.amount > 0);
     UpdateReveal(&game->wineReveal,    game->workers > 10);
     UpdateReveal(&game->wineryReveal,  game->workers > 10);
     UpdateReveal(&game->beerReveal,    game->workers > 10);
     UpdateReveal(&game->breweryReveal, game->workers > 10);
+    UpdateReveal(&game->ironMineReveal, game->workers > 10);
+    UpdateReveal(&game->forgeReveal, game->workers > 10);
 }
 
 
@@ -236,6 +238,16 @@ void resourcesHUD(GameState *game)
             22,
             Fade(BLACK, game->beerReveal.alpha / 255.0f)
         );
+
+        DrawMedievalText(
+            TextFormat("Iron Ore: %.2f", game->ironOre),
+            margin + (columnWidth * 2),
+            startY + (rowHeight * 2),
+            22,
+            Fade(BLACK, game->beerReveal.alpha / 255.0f)
+        );
+
+
     }
 }
 
@@ -295,7 +307,7 @@ void productionHUD(GameState *game)
         );
     }
 
-    if (game->Mill.amount > 1) {
+    if (game->Mill.amount > 0) {
 
         DrawProductionCell(
             3, 0,
@@ -331,7 +343,29 @@ void productionHUD(GameState *game)
             game->Brewery.workers,
             game->breweryReveal.alpha
         );
+
+        DrawProductionCell(
+            2, 1,
+            cellWidth, cellHeight,
+            margin, top,
+            "Iron Mine",
+            game->IronMine.amount,
+            game->IronMine.workers,
+            game->ironMineReveal.alpha
+        );
+
+        DrawProductionCell(
+            3, 1,
+            cellWidth, cellHeight,
+            margin, top,
+            "Forge",
+            game->Forge.amount,
+            game->Forge.workers,
+            game->forgeReveal.alpha
+        );
     }
+
+        
 
 // Empty cells reserved for future productions
 }
@@ -345,6 +379,8 @@ Rectangle millButton;
 Rectangle bakeryButton;
 Rectangle wineryButton;
 Rectangle breweryButton;
+Rectangle ironMineButton;
+Rectangle forgeButton;
 
 GetBuildingButtons(
     &farmButton,
@@ -352,7 +388,9 @@ GetBuildingButtons(
     &millButton,
     &bakeryButton,
     &wineryButton,
-    &breweryButton
+    &breweryButton,
+    &ironMineButton,
+    &forgeButton
 );
 
 Vector2 mouse = GetMousePosition();
@@ -363,6 +401,8 @@ Color millColor = LIGHTGRAY;
 Color bakeryColor = LIGHTGRAY;
 Color wineryColor = LIGHTGRAY;
 Color breweryColor = LIGHTGRAY;
+Color ironMineColor = LIGHTGRAY;
+Color forgeColor = LIGHTGRAY;
 
 // Hover / click
 
@@ -404,6 +444,20 @@ if (CheckCollisionPointRec(mouse, wineryButton)) {
 if (CheckCollisionPointRec(mouse, breweryButton)) {
     
     breweryColor = IsMouseButtonDown(MOUSE_BUTTON_LEFT)
+    ? DARKGRAY
+    : GRAY;
+}
+
+if (CheckCollisionPointRec(mouse, ironMineButton)) {
+    
+    ironMineColor = IsMouseButtonDown(MOUSE_BUTTON_LEFT)
+    ? DARKGRAY
+    : GRAY;
+}
+
+if (CheckCollisionPointRec(mouse, forgeButton)) {
+    
+    forgeColor = IsMouseButtonDown(MOUSE_BUTTON_LEFT)
     ? DARKGRAY
     : GRAY;
 }
@@ -484,7 +538,7 @@ if (game->Farm.amount > 3) {
 
 // Bakery button
 
-if (game->Mill.amount > 1) {
+if (game->Mill.amount > 0) {
 
     Color bakeryRevealColor =
         Fade(bakeryColor, game->bakeryReveal.alpha / 255.0f);
@@ -577,6 +631,71 @@ if (game->workers > 10) {
         breweryButton.y + 35,
         16,
         breweryTextColor
+    );
+}
+
+
+// Iron Mine button
+
+if (game->workers > 10) {
+
+    Color ironMineRevealColor =
+        Fade(ironMineColor, game->ironMineReveal.alpha / 255.0f);
+
+    Color ironMineTextColor =
+        Fade(BLACK, game->ironMineReveal.alpha / 255.0f);
+
+    DrawRectangleRec(
+        ironMineButton,
+        ironMineRevealColor
+    );
+
+    DrawMedievalText(
+        "ironMine",
+        ironMineButton.x + 50,
+        ironMineButton.y + 8,
+        24,
+        ironMineTextColor
+    );
+
+    DrawMedievalText(
+        "10 gold",
+        ironMineButton.x + 45,
+        ironMineButton.y + 35,
+        16,
+        ironMineTextColor
+    );
+}
+
+// forge button
+
+if (game->workers > 10) {
+
+    Color forgeRevealColor =
+        Fade(forgeColor, game->forgeReveal.alpha / 255.0f);
+
+    Color forgeTextColor =
+        Fade(BLACK, game->forgeReveal.alpha / 255.0f);
+
+    DrawRectangleRec(
+        forgeButton,
+        forgeRevealColor
+    );
+
+    DrawMedievalText(
+        "Forge",
+        forgeButton.x + 50,
+        forgeButton.y + 8,
+        24,
+        forgeTextColor
+    );
+
+    DrawMedievalText(
+        "10 gold",
+        forgeButton.x + 45,
+        forgeButton.y + 35,
+        16,
+        forgeTextColor
     );
 }
 }

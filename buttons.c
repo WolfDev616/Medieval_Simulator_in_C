@@ -7,7 +7,9 @@ Rectangle *well,
 Rectangle *mill,
 Rectangle *bakery,
 Rectangle *winery,
-Rectangle *brewery
+Rectangle *ironMine,
+Rectangle *brewery,
+Rectangle *forge
 )
 {
 int screenWidth = GetScreenWidth();
@@ -23,7 +25,7 @@ float buttonHeight = 60;
 
 float availableWidth =
     screenWidth
-    - (margin * 2)
+    - (margin * 25)
     - (spacing * (columns - 1));
 
 float buttonWidth =
@@ -60,25 +62,38 @@ float startY =
     buttonHeight
 };
 
+*bakery = (Rectangle){
+    margin + (buttonWidth + spacing) * 3,
+    startY,
+    buttonWidth,
+    buttonHeight
+};
 
 // Second row
 
-*bakery = (Rectangle){
+*winery = (Rectangle){
     margin,
     startY + buttonHeight + spacing,
     buttonWidth,
     buttonHeight
 };
 
-*winery = (Rectangle){
+*brewery = (Rectangle){
     margin + buttonWidth + spacing,
     startY + buttonHeight + spacing,
     buttonWidth,
     buttonHeight
 };
 
-*brewery = (Rectangle){
+*ironMine = (Rectangle){
     margin + (buttonWidth + spacing) * 2,
+    startY + buttonHeight + spacing,
+    buttonWidth,
+    buttonHeight
+};
+
+*forge = (Rectangle){
+    margin + (buttonWidth + spacing) * 3,
     startY + buttonHeight + spacing,
     buttonWidth,
     buttonHeight

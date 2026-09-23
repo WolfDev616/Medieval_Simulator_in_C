@@ -15,6 +15,8 @@ void inputMap(GameState *game) {
         Rectangle bakeryButton;
         Rectangle wineryButton;
         Rectangle breweryButton;
+        Rectangle ironMineButton;
+        Rectangle forgeButton;
 
         GetBuildingButtons(
             &farmButton,
@@ -22,7 +24,9 @@ void inputMap(GameState *game) {
             &millButton,
             &bakeryButton,
             &wineryButton,
-            &breweryButton
+            &breweryButton,
+            &ironMineButton,
+            &forgeButton
 );
     
 
@@ -129,6 +133,42 @@ void inputMap(GameState *game) {
                 game->gold -= 10;
                 game->workers += 1;
                 game->Brewery.workers += 1;
+            }
+            else {
+                snprintf(
+                    game->warningMessage,
+                    sizeof(game->warningMessage),
+                    "There is not enough gold!"
+                );
+
+                game->warningTimer = 3.0f;
+            }
+        }
+
+        else if (CheckCollisionPointRec(mouse, ironMineButton)) {
+
+            if (game->gold >= 10) {
+                game->gold -= 10;
+                game->workers += 1;
+                game->IronMine.workers += 1;
+            }
+            else {
+                snprintf(
+                    game->warningMessage,
+                    sizeof(game->warningMessage),
+                    "There is not enough gold!"
+                );
+
+                game->warningTimer = 3.0f;
+            }
+        }
+
+        else if (CheckCollisionPointRec(mouse, forgeButton)) {
+
+            if (game->gold >= 10) {
+                game->gold -= 10;
+                game->workers += 1;
+                game->Forge.workers += 1;
             }
             else {
                 snprintf(

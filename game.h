@@ -34,12 +34,16 @@ typedef struct GameState {
     float bread;
     float wine;
     float beer;
+    float ironOre;
+    float ironTools;
     Workplace Farm;
     Workplace Well;
     Workplace Mill;
     Workplace Bakery;
     Workplace Winery;
     Workplace Brewery;
+    Workplace IronMine;
+    Workplace Forge;
 
 
     Reveal farmReveal;
@@ -50,6 +54,8 @@ typedef struct GameState {
     Reveal wineryReveal;
     Reveal beerReveal;
     Reveal breweryReveal;
+    Reveal ironMineReveal;
+    Reveal forgeReveal;
 
     
     // Control

@@ -55,14 +55,24 @@ void updateEconomy(GameState *game) {
         if (game->Bakery.amount > 0) {
             
             for (int i = 1; i <= game->Bakery.amount; i++) {
-
+                
                 if (game->flour > 5 && game->water > 5){
-
+                    
                     game->flour -= 5;
                     game->flour -= 5;
-                    game->bread += 5;
+                    game->bread += 1;
                 } 
             }
+        }
+        
+        if (game->Forge.amount > 0) {
+            
+            for (int i = 1; i <= game->Forge.amount; i++) {
+                if (game->ironOre > 0) {
+                    game->ironTools += 2;
+                }
+            }
+                            
         }
 
 

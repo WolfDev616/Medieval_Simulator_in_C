@@ -9,7 +9,9 @@ void GetBuildingButtons(
     Rectangle *mill,
     Rectangle *bakery,
     Rectangle *winery,
-    Rectangle *brewery
+    Rectangle *brewery,
+    Rectangle *ironMine,
+    Rectangle *forge
 );
 
 #endif
