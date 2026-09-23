@@ -149,8 +149,9 @@ void inputMap(GameState *game) {
 
             if (game->gold >= 10) {
                 game->gold -= 10;
-                game->workers += 1;
-                game->IronMine.workers += 1;
+                game->IronMine.amount++;
+                game->workers++;
+                game->IronMine.workers++;
             }
             else {
                 snprintf(
@@ -167,8 +168,9 @@ void inputMap(GameState *game) {
 
             if (game->gold >= 10) {
                 game->gold -= 10;
-                game->workers += 1;
-                game->Forge.workers += 1;
+                game->Forge.amount++;
+                game->workers++;
+                game->Forge.workers++;
             }
             else {
                 snprintf(

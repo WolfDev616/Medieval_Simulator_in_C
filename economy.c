@@ -65,10 +65,19 @@ void updateEconomy(GameState *game) {
             }
         }
         
+        if (game->IronMine.amount > 0) {
+            
+            for (int i = 1; i <= game->IronMine.amount; i++) {
+                game->ironOre += 15;
+            }
+                            
+        }
+
         if (game->Forge.amount > 0) {
             
             for (int i = 1; i <= game->Forge.amount; i++) {
                 if (game->ironOre > 0) {
+                    game->ironOre -= 10;
                     game->ironTools += 2;
                 }
             }

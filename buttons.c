@@ -7,8 +7,8 @@ Rectangle *well,
 Rectangle *mill,
 Rectangle *bakery,
 Rectangle *winery,
-Rectangle *ironMine,
 Rectangle *brewery,
+Rectangle *ironMine,
 Rectangle *forge
 )
 {

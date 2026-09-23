@@ -247,6 +247,14 @@ void resourcesHUD(GameState *game)
             Fade(BLACK, game->beerReveal.alpha / 255.0f)
         );
 
+        DrawMedievalText(
+            TextFormat("Iron Tools: %.2f", game->ironTools),
+            margin + (columnWidth * 3),
+            startY + (rowHeight * 2),
+            22,
+            Fade(BLACK, game->beerReveal.alpha / 255.0f)
+        );
+
 
     }
 }
@@ -651,7 +659,7 @@ if (game->workers > 10) {
     );
 
     DrawMedievalText(
-        "ironMine",
+        "iron Mine",
         ironMineButton.x + 50,
         ironMineButton.y + 8,
         24,
