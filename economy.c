@@ -7,12 +7,15 @@
 #include "save.h"
 #include "game.h"
 #include "raylib.h"
+#include "audio.h"
 
 
 void updateEconomy(GameState *game) {
 
     // DAILY ECONOMY 
     if (game->time.days != game->lastDay) {
+
+        randomSoundOnDay(game->time.days, 3, 50, introBirdSound);
 
         // DAILY CONSUMPTION
 
@@ -59,7 +62,7 @@ void updateEconomy(GameState *game) {
                 if (game->flour > 5 && game->water > 5){
                     
                     game->flour -= 5;
-                    game->flour -= 5;
+                    game->water -= 5;
                     game->bread += 1;
                 } 
             }
@@ -98,6 +101,7 @@ void updateEconomy(GameState *game) {
         // WEEKLY PRODUCTION
 
         game->gold += game->population * 0.08;
+        PlaySound(coinDropSound);
 
         if (game->Mill.amount > 0) {
 
@@ -123,7 +127,14 @@ void updateEconomy(GameState *game) {
             }
         }
 
+        // POPULATION LOSS DUE TO HUNGER AND THIRST
 
+        if (game->bread == 0 || game->water == 0) {
+            if (game->time.weeks != game->lastWeek) {   
+                game->population -= (rand() % 3) + 1;
+            }
+        }
+        
         // Mark week as processed
 
         game->lastWeek = game->time.weeks;
@@ -173,7 +184,17 @@ void updateEconomy(GameState *game) {
 
 
         // Mark month as processed
-
+        
         game->lastMonth = game->time.months;
+        
+        
     }
+
+    // void gameOver(GameState *game) {
+
+    //     if (population == 0) {
+            
+    //     }
+    // } 
 }
+

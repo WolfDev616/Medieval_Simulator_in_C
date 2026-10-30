@@ -8,6 +8,8 @@
 #include "game.h"
 #include "inputs.h"
 #include "economy.h"
+#include "audio.h"
+
 
 
 int main() {
@@ -26,8 +28,15 @@ int main() {
     // MUSIC
     InitAudioDevice();
 
+    // Sounds
+    coinDropSound = LoadSound("/home/andreas/Programação/C Projects/Medieval_Simulator/sounds/universfield-coin-drop-229314.mp3");
+    buildingSound = LoadSound("/home/andreas/Programação/C Projects/Medieval_Simulator/sounds/hammer_short.mp3");
+    introBirdSound = LoadSound("/home/andreas/Programação/C Projects/Medieval_Simulator/sounds/birds_short.mp3");
+
     Music music = LoadMusicStream("/home/andreas/Programação/C Projects/Medieval_Simulator/sounds/MidnightWalk.mp3");
     PlayMusicStream(music);
+    PlaySound(introBirdSound);
+
 
     medievalFont = LoadFont("fonts/MedievalSharp-Regular.ttf");
     SetTargetFPS(60);
@@ -55,6 +64,10 @@ int main() {
         EndDrawing();
     }
 UnloadFont(medievalFont);
+UnloadSound(coinDropSound);
+UnloadSound(buildingSound);
+UnloadSound(introBirdSound);
+// UnloadSound(chatterSound);
 saveGame(&game);
 UnloadMusicStream(music);   // Unload music stream buffers from RAM
 CloseAudioDevice(); 

@@ -187,7 +187,7 @@ void resourcesHUD(GameState *game)
     // Resources
 
     DrawMedievalText(
-        TextFormat("Grains: %.2f", game->grains),
+        TextFormat("Grains and grapes: %.2f", game->grains),
         margin,
         startY + rowHeight,
         22,
@@ -237,14 +237,17 @@ void resourcesHUD(GameState *game)
             startY + (rowHeight * 2),
             22,
             Fade(BLACK, game->beerReveal.alpha / 255.0f)
-        );
+        );  
+    }
+        if (game->workers > 15) {
 
-        DrawMedievalText(
+            
+            DrawMedievalText(
             TextFormat("Iron Ore: %.2f", game->ironOre),
             margin + (columnWidth * 2),
             startY + (rowHeight * 2),
             22,
-            Fade(BLACK, game->beerReveal.alpha / 255.0f)
+            Fade(BLACK, game->ironMineReveal.alpha / 255.0f)
         );
 
         DrawMedievalText(
@@ -252,11 +255,11 @@ void resourcesHUD(GameState *game)
             margin + (columnWidth * 3),
             startY + (rowHeight * 2),
             22,
-            Fade(BLACK, game->beerReveal.alpha / 255.0f)
+            Fade(BLACK, game->ironMineReveal.alpha / 255.0f)
         );
 
-
     }
+        
 }
 
 
@@ -286,7 +289,7 @@ void productionHUD(GameState *game)
         0, 0,
         cellWidth, cellHeight,
         margin, top,
-        "Farm",
+        "Farms",
         game->Farm.amount,
         game->Farm.workers,
         game->farmReveal.alpha
@@ -296,7 +299,7 @@ void productionHUD(GameState *game)
         1, 0,
         cellWidth, cellHeight,
         margin, top,
-        "Well",
+        "Wells",
         game->Well.amount,
         game->Well.workers,
         game->wellReveal.alpha
@@ -659,7 +662,7 @@ if (game->workers > 10) {
     );
 
     DrawMedievalText(
-        "iron Mine",
+        "Iron Mine",
         ironMineButton.x + 50,
         ironMineButton.y + 8,
         24,
@@ -725,7 +728,7 @@ void warningHUD(GameState *game)
         DrawMedievalText(
             warning,
             GetScreenWidth() - textWidth - 30,
-            GetScreenHeight() - 60,
+            GetScreenHeight() - 30,
             30,
             RED
         );

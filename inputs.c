@@ -2,6 +2,8 @@
 #include "game.h"
 #include "inputs.h"
 #include "buttons.h"
+#include "audio.h"
+
 #include <stdio.h>
 
 void inputMap(GameState *game) {
@@ -37,6 +39,7 @@ void inputMap(GameState *game) {
                 game->gold -= 5;
                 game->workers += 1;
                 game->Farm.workers += 1;
+                PlaySound(buildingSound);
                 
             }
             else {
@@ -57,6 +60,7 @@ void inputMap(GameState *game) {
                 game->gold -= 5;
                 game->workers += 1;
                 game->Well.workers += 1;
+                PlaySound(buildingSound);
             }
             else {
                 snprintf(
@@ -76,6 +80,7 @@ void inputMap(GameState *game) {
                 game->gold -= 10;
                 game->workers += 1;
                 game->Mill.workers += 1;
+                PlaySound(buildingSound);
             }
             else {
                 snprintf(
@@ -95,6 +100,7 @@ void inputMap(GameState *game) {
                 game->gold -= 12;
                 game->workers += 1;
                 game->Bakery.workers += 1;
+                PlaySound(buildingSound);
             }
             else {
                 snprintf(
@@ -114,6 +120,7 @@ void inputMap(GameState *game) {
                 game->gold -= 10;
                 game->workers += 1;
                 game->Winery.workers += 1;
+                PlaySound(buildingSound);
             }
             else {
                 snprintf(
@@ -133,6 +140,7 @@ void inputMap(GameState *game) {
                 game->gold -= 10;
                 game->workers += 1;
                 game->Brewery.workers += 1;
+                PlaySound(buildingSound);
             }
             else {
                 snprintf(
@@ -152,6 +160,7 @@ void inputMap(GameState *game) {
                 game->IronMine.amount++;
                 game->workers++;
                 game->IronMine.workers++;
+                PlaySound(buildingSound);
             }
             else {
                 snprintf(
@@ -171,6 +180,7 @@ void inputMap(GameState *game) {
                 game->Forge.amount++;
                 game->workers++;
                 game->Forge.workers++;
+                PlaySound(buildingSound);
             }
             else {
                 snprintf(

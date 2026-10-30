@@ -15,6 +15,8 @@ void timeCounter(GameState *game) {
         game->timeAccumulator -= 2.5f;
 
         game->time.days += 1;
+
+        
 	}
 
     if (game->time.days >= 8) {
